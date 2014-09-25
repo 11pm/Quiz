@@ -96,17 +96,36 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+body{
+    background-image: url(/img/img.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
 .quiz-area{
     position: absolute;
     top:25%;
     left: 0;
     right: 0;
     bottom: 0;
+    
 }
-
-
-
-
+.quiz-area .panel{
+    background-color: rgba(242, 242, 242, 0.8);
+}
+.quiz{
+    -webkit-box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
+}
+.options button{
+    width: 100%;
+    background: #666666;
+    border-radius: 5px;
+    color: #fff;
+}
+.options button:hover{
+    background: #333333;
+}
 
 
 

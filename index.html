@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if lt IE 7]> 
+￼ Linux     <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
@@ -39,9 +40,16 @@
                         <h3 class='text-center'>Question {{questionPos}} of {{questionTotal}}</h3>
                         <hr>
                         <h3>{{question}}?</h3>
+                        <ul class='small-block-grid-2 options'>
+
                         {{#each this.options}}
-                           {{this}}<br>
+                            <li>
+                            <button name="{{this}}" id="arnar">
+                                {{this}}
+                            </button>
+                            </li>
                         {{/each}}
+                        </ul>
                     </script>
 
                 </div>

@@ -60,19 +60,25 @@ var quiz = {
 
 	loadQuestion: function(){
 		var question = this.questions[this.questionPos]
-		console.log(question.options)
 		var context = {
 			questionPos: this.questionPos + 1,
-			questionTotal: this.questions.length +1,
+			questionTotal: this.questions.length,
 			question: question.question,
 			options: question.options
 		}
 		
 		var template = Handlebars.compile( $('#question').html() );
 		$('.quiz').empty().append( template(context) );
-	}
 
+	},
+
+	handleClick: function(e){
+
+		console.log(e);
+
+	}
 };
 quiz.init();
 //start quiz
 $('.start').click(quiz.start);
+$('#arnar').click(quiz.handleClick);
