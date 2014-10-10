@@ -5,8 +5,12 @@ var data = [
 	[
 		{	
 			question: 'What is the capital of Croatia',
-			options: ['Zagreb', 'MURICA', 'Athens', 'Sarajevo'],
-			correct: 0
+			options: [
+				{name: 'Zagreb', correct: true},
+				{name: 'MURICA', correct: false},
+				{name: 'Athens', correct: false},
+				{name: 'Sarajevo', correct: false}
+			]
 		}
 	]
 },
@@ -15,13 +19,21 @@ var data = [
 	[
 		{
 			question: 'What is linux\'s mascots name',
-			options: ['Linux', 'Linus', 'Tux', 'Panda'],
-			correct: 2
+			options: [
+				{name: 'Linux', correct: false},
+				{name: 'Penguin', correct: false},
+				{name: 'Tux', correct: true},
+				{name: 'Panda', correct: false}
+			]
 		},
 		{
 			question: 'What does JSON stand for?',
-			options: ['Jason', 'Javascript Object Notation', 'Javascript sucks on IE6', 'Mom\s spagetti'],
-			correct: 1
+			options: [
+				{name: 'JASON', correct: false},
+				{name: 'Javascript Object Notation', correct: true},
+				{name: 'Javascript sucks on IE6', correct: false},
+				{name: 'Mom\'s spagetti', correct: false}
+			]
 		}
 	]
 }

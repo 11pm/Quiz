@@ -18,13 +18,10 @@
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-
+    
         <div class="question-container">
             <div class="medium-4 small-12 columns medium-centered quiz-area ">
-                <div class="panel animated bounceInDown quiz">
+                <div class="panel animated fadeIn quiz">
                     
                     <script type="text/x-handlebars-template" id="categories">
                         <h1>Categories</h1>
@@ -37,27 +34,40 @@
                     </script>
 
                     <script type="text/x-handlebars-template" id="question">
-                        <h3 class='text-center'>Question {{questionPos}} of {{questionTotal}}</h3>
-                        <hr>
-                        <h3>{{question}}?</h3>
-                        <ul class='small-block-grid-2 options'>
+                        <div class="animated fadeIn">
+                            <h3 class='text-center animated fadeIn'>
+                            Question {{questionPos}} of {{questionTotal}}
+                            </h3>
+                            <hr>
+                            <h3>{{question}}?</h3>
 
-                        {{#each this.options}}
-                            <li>
-                            <button name="{{this}}" id="arnar">
-                                {{this}}
-                            </button>
-                            </li>
-                        {{/each}}
-                        </ul>
+                            <ul class='small-block-grid-1 options'>
+
+                            {{#each this.options}}
+                                <li class='option'>
+                                    <a class="next button"
+                                     data-option="{{this.name}}"
+                                     data-correct="{{this.correct}}">
+                                        {{this.name}}
+                                    </a>
+                                </li>
+                            {{/each}}
+                            </ul>
+                        </div>
                     </script>
+
+                    <script type="text/x-handlebars-template" id="finish">
+                        <h3 class='text-center'>
+                            You got {{correctTotal}} of {{questionTotal}}
+                        </h3>
+                    </script>
+                    <div class="view"></div>
 
                 </div>
             </div>
         </div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+        <script src="js/vendor/jquery-1.10.2.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/handlebars.js"></script>
         <script src="js/data.js"></script>

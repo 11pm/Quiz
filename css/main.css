@@ -103,7 +103,7 @@ body{
 }
 .quiz-area{
     position: absolute;
-    top:25%;
+    top:20%;
     left: 0;
     right: 0;
     bottom: 0;
@@ -117,13 +117,16 @@ body{
 -moz-box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
 box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
 }
-.options button{
-    width: 100%;
-    background: #666666;
-    border-radius: 5px;
-    color: #fff;
+.options{
+    margin-bottom: 0 !important;
 }
-.options button:hover{
+.options a{
+   width: 100%;
+    background: #666666;
+    color: #fff;
+    margin-bottom: 0 !important;
+}
+.options a:hover{
     background: #333333;
 }
 
