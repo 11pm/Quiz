@@ -17,14 +17,10 @@
 			//generate all categories for user to select
 			var allCategories = [];
 			
-			for(prop in data){
+			for(var prop in data){
 				allCategories.push(prop);
-			};
+			}
 			
-			
-			//show checkboxes
-			//var template = Handlebars.compile( $('#categories').html() );
-
 			this.display($('#categories'), allCategories);
 		},
 		//get categories from user
@@ -42,11 +38,13 @@
 				unchecked.push(children[i].id);
 			}
 
-			if(quiz.categories.length == 0){
+			if(quiz.categories.length === 0){
 				quiz.categories = unchecked;
 			}
 			//create the questions from what the user wants
 			quiz.makeQuestions();
+			//show questions in a random order
+			quiz.questions = quiz.shuffle(quiz.questions);
 			//show the current question
 			quiz.loadQuestion();
 		},
@@ -55,13 +53,13 @@
 			//go through categories
 			for (var category = 0; category < this.categories.length; category++){
 				//get question array of objects in a category
-				var obj = data[this.categories[category]]
+				var obj = data[this.categories[category]];
 				//get question object if it exists
 				if(typeof obj !== 'undefined'){
 					//for every question in a cateory
 					for (var question = 0; question < obj.length; question++){
 						//add every question object to a list
-						this.questions.push(obj[question])
+						this.questions.push(obj[question]);
 					}
 				}	
 			}
@@ -77,6 +75,8 @@
 			else{
 				//get current question
 				var question = this.questions[this.questionPos];
+				//update options in random order
+				question.options = this.shuffle(question.options);
 				//create data for Handlebars
 				var context = {
 					questionPos: this.questionPos + 1,
@@ -86,7 +86,7 @@
 				};
 				
 				this.display($('#question'), context);
-
+				//handle when user clicks next
 				$('.next').bind('click', this.handleClick);
 			}
 			
@@ -117,7 +117,7 @@
 				questionTotal: quiz.questions.length 
 
 			};
-			console.log(context)
+			
 			this.display($('#finish'), context);
 		},
 
@@ -129,7 +129,28 @@
 			var template = Handlebars.compile( dom.html() );
 			$('.view').html(template(content));
 		},
-		
+		//Fisher Yates shuffle
+		shuffle: function(array){
+
+			var copy = [], n = array.length, i;
+
+  			// While there remain elements to shuffle…
+  			while (n) {
+
+    			// Pick a remaining element…
+    			i = Math.floor(Math.random() * array.length);
+
+    			// If not already shuffled, move it to the new array.
+    			if (i in array) {
+      				copy.push(array[i]);
+      				delete array[i];
+      				n--;
+    			}
+  			}
+
+  			return copy;
+		}
+
 	};
 
 	//Start quiz
@@ -138,4 +159,4 @@
 	//Event handling
 	$('.start').bind('click', quiz.start);
 	
-})()
+})();
