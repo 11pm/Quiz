@@ -1,6 +1,4 @@
-var data = [
-//every category
-{
+var data = {
 	'Geography': 
 	[
 		{	
@@ -12,9 +10,7 @@ var data = [
 				{name: 'Sarajevo', correct: false}
 			]
 		}
-	]
-},
-{
+	],
 	'Tech':
 	[
 		{
@@ -35,7 +31,17 @@ var data = [
 				{name: 'Mom\'s spagetti', correct: false}
 			]
 		}
+	],
+	'Music':
+	[
+		{
+			question: 'What year did Tupac die',
+			options: [
+				{name: '1972', correct: false},
+				{name: '2002', correct: false},
+				{name: '1996', correct: true},
+				{name: '2007', correct: false}
+			]
+		}
 	]
 }
-
-]

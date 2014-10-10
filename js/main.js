@@ -16,12 +16,11 @@
 		init: function(){
 			//generate all categories for user to select
 			var allCategories = [];
-
-			for (var i = 0 ; i < data.length; i++) {
-				for(prop in data[i]){
-					allCategories.push(prop);
-				}
+			
+			for(prop in data){
+				allCategories.push(prop);
 			};
+			
 			
 			//show checkboxes
 			//var template = Handlebars.compile( $('#categories').html() );
@@ -55,21 +54,16 @@
 		makeQuestions: function(){
 			//go through categories
 			for (var category = 0; category < this.categories.length; category++){
-				//go trough data
-				for(var x = 0; x < data.length;x++){
-					//get question array of objects in a category
-					var obj = data[x][this.categories[category]]
-					
-					//get question object if it exists
-					if(typeof obj !== 'undefined'){
-						//console.log(obj)
-						//for every question in a cateory
-						for (var question = 0; question < obj.length; question++){
-							//add every question object to a list
-							this.questions.push(obj[question])
-						}
+				//get question array of objects in a category
+				var obj = data[this.categories[category]]
+				//get question object if it exists
+				if(typeof obj !== 'undefined'){
+					//for every question in a cateory
+					for (var question = 0; question < obj.length; question++){
+						//add every question object to a list
+						this.questions.push(obj[question])
 					}
-				}
+				}	
 			}
 		},
 
