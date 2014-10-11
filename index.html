@@ -20,19 +20,9 @@
     <body>
     
         <div class="question-container">
-            <div class="medium-6 large-4 small-12 columns medium-centered quiz-area ">
+            <div class="medium-4 small-12 columns medium-centered quiz-area ">
                 <div class="panel animated fadeIn quiz">
                     
-                    <script type="text/x-handlebars-template" id="categories">
-                        <h1>Categories</h1>
-                        <div class='categories'>
-                            {{#each this}}
-                                <input type="checkbox" id="{{this}}">{{this}}<br>
-                            {{/each}}
-                        </div>
-                        <button class='start'>Start</button>
-                    </script>
-
                     <script type="text/x-handlebars-template" id="question">
                         <div class="animated fadeIn">
                             <h3 class='text-center animated fadeIn'>
@@ -70,6 +60,7 @@
         <script src="js/vendor/jquery-1.10.2.min.js"></script>
         <script src="js/plugins.js"></script>
         <script src="js/handlebars.js"></script>
+        <script src="js/templateloader.js"></script>
         <script src="js/data.js"></script>
         <script src="js/main.js"></script>
 
