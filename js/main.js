@@ -111,11 +111,12 @@
 
 		displayScore: function(){
 			var user = this.user;
-
+			console.log(user);
 			var context = {
 				correctTotal: user.correct.length,
-				questionTotal: quiz.questions.length 
-
+				questionTotal: quiz.questions.length, 
+				wrong: user.wrong,
+				correct: user.correct
 			};
 			
 			this.display($('#finish'), context);
