@@ -114,14 +114,14 @@ body{
 }
 .quiz{
     -webkit-box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
-box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
+    box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
 }
 .options{
     margin-bottom: 0 !important;
 }
 .options a{
-   width: 100%;
+    width: 100%;
     background: #666666;
     color: #fff;
     margin-bottom: 0 !important;
@@ -130,9 +130,23 @@ box-shadow: 0px 0px 54px 2px rgba(0,0,0,0.75);
     background: #333333;
 }
 .categories label{
-  font-size: 20px;
+    font-size: 20px;
 }
-
+.panel.wrong, .panel.correct{
+    border-radius: 5px;
+    color: white !important;
+    text-shadow: 0px 0px 15px rgba(150, 150, 150, 1);
+}
+.panel.wrong{
+    background-color: rgba(255, 0, 0, 0.90)
+}
+.panel.wrong ul{
+    list-style: none;
+}
+.panel.wrong li:not(:last-child){
+    border-bottom: 1px solid #ccc;
+}
+.panel.wrong
 
 
 
