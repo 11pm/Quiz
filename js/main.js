@@ -10,6 +10,9 @@ var quiz = {
 		correct: [],
 		wrong: []
 	},
+
+	templateFolder: '/templates/',
+
 	init: function(){
 		//generate all categories for user to select
 		var allCategories = [];
@@ -17,8 +20,8 @@ var quiz = {
 		for(var prop in data){
 			allCategories.push(prop);
 		}
-		
-		this.display($('#categories'), allCategories);
+
+		this.render('categories', allCategories);
 	},
 	//get categories from user
 	start: function(){
@@ -81,9 +84,7 @@ var quiz = {
 				options: question.options
 			};
 			
-			this.display($('#question'), context);
-			//handle when user clicks next
-			$('.next').bind('click', this.handleClick);
+			this.render('question', context);
 		}
 			
 	},
@@ -107,18 +108,36 @@ var quiz = {
 
 	displayScore: function(){
 		var user = this.user;
-		console.log(user)
+		console.log(user);
 		var context = {
 			correctTotal: user.correct.length,
 			questionTotal: quiz.questions.length, 
 			result: user
 		};
 			
-		this.display($('#finish'), context);
+		this.render('finished', context);
 	},
 
 	quizFinished: function(){
 		return this.questionPos >= this.questions.length;
+	},
+
+	render: function(name, context){
+		var templatePath = this.templateFolder + name + '.html';
+		
+		$.ajax({
+			url: templatePath,
+			method: 'GET',
+			success: function(response){
+
+				var template = Handlebars.compile(response);
+				$('.view').html(template(context));
+			},
+			error: function(error){
+				$('body').load(this.templateFolder + 'error.html');
+			}
+		});
+
 	},
 
 	display: function(dom, content){
@@ -143,10 +162,12 @@ var quiz = {
 	}
 
 };
-(function(){
-	//Start quiz
-	quiz.init();
 
-	//Event handling
-	$('.start').bind('click', quiz.start);
-})();
+//Start quiz
+quiz.init();
+var body = $('body');
+
+//Start quiz
+body.on('click', '.start', quiz.start);
+
+$('.options').on('click', '.next', quiz.handleClick);

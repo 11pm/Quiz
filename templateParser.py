@@ -1,2 +1,0 @@
-template = input()
-print(template)

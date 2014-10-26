@@ -15,36 +15,12 @@
         <link rel="stylesheet" type="text/css" href="css/foundation.min.css">
         <link rel="stylesheet" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/animate.css">
-        <ul></ul>
     </head>
     <body>
     
         <div class="question-container">
             <div class="medium-6 small-12 columns medium-centered quiz-area ">
                 <div class="panel animated fadeIn quiz">
-                    
-                    <script type="text/x-handlebars-template" id="question">
-                        <div class="animated fadeIn">
-                            <h3 class='text-center animated fadeIn'>
-                            Question {{questionPos}} of {{questionTotal}}
-                            </h3>
-                            <hr>
-                            <h3>{{question}}?</h3>
-
-                            <ul class='small-block-grid-1 options'>
-
-                            {{#each this.options}}
-                                <li class='option'>
-                                    <a class="next button"
-                                     data-option="{{this.name}}"
-                                     data-correct="{{this.correct}}">
-                                        {{this.name}}
-                                    </a>
-                                </li>
-                            {{/each}}
-                            </ul>
-                        </div>
-                    </script>
 
                     <script type="text/x-handlebars-template" id="finish">
                         <h3 class='text-center'>
@@ -69,28 +45,8 @@
 
         <script src="js/vendor/jquery.js"></script>
         <script src="js/handlebars.js"></script>
-        <script src="js/templateloader.js"></script>
         <script src="js/data.js"></script>
         <script src="js/main.js"></script>
 
     </body>
 </html>
-<!-- {{#if wrong}}
-                            <div class='panel wrong'>
-                            <ul>
-                            {{#each wrong}}
-                                <li>{{this}}</li>
-                            {{/each}}
-                            </ul>
-                            </div>
-                        {{/if}}
-
-                        {{#if correct}}
-                            <div class='panel correct'>
-                            <ul>
-                            {{#each correct}}
-                                <li>{{this}}</li>
-                            {{/each}}
-                            </ul>
-                            </div>
-                        {{/if}}-->
