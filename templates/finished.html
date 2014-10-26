@@ -1,0 +1,10 @@
+<h3 class='text-center'>
+    You got {{correctTotal}} of {{questionTotal}}
+</h3>
+                    
+{{#if result.correct}}
+    {{#each result.correct}}
+        {{this}}
+    {{/each}}
+{{/if}}
+                        

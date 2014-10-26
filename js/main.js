@@ -85,24 +85,19 @@ var quiz = {
 			};
 			
 			this.render('question', context);
+			//$('body').on('click', '.start', quiz.start);
+			//$('body').on('click', '.next', this.click);
+
+			console.log(this.questionPos)
 		}
-			
 	},
 
-	handleClick: function(e){
-		//get data from clicked option
-		var data = $(this)[0].dataset;
-		
-		//if option clicked is the correct answer
-		if (data.correct == 'true'){
-			quiz.user.correct.push(data.option);
-		}
-		else{
-			quiz.user.wrong.push(data.option);
-		}
-		//go to next question index
+	click: function(){
+		var dataset = $(this).data();
+		console.log(dataset);
+		console.log(this);
 		quiz.questionPos++;
-		//load the next question
+
 		quiz.loadQuestion();
 	},
 
@@ -123,27 +118,25 @@ var quiz = {
 	},
 
 	render: function(name, context){
-		var templatePath = this.templateFolder + name + '.html';
+
+		var templatePath = function(name){
+			return quiz.templateFolder + name + '.html';
+		};
 		
 		$.ajax({
-			url: templatePath,
+			url: templatePath(name),
 			method: 'GET',
 			success: function(response){
-
 				var template = Handlebars.compile(response);
 				$('.view').html(template(context));
 			},
 			error: function(error){
-				$('body').load(this.templateFolder + 'error.html');
+				$('body').load(templatePath('error'));
 			}
 		});
 
 	},
 
-	display: function(dom, content){
-		var template = Handlebars.compile( dom.html() );
-		$('.view').html(template(content));
-	},
 	//Fisher Yates shuffle
 	shuffle: function(array){
 		var copy = [], n = array.length, i;
@@ -165,9 +158,7 @@ var quiz = {
 
 //Start quiz
 quiz.init();
-var body = $('body');
 
 //Start quiz
-body.on('click', '.start', quiz.start);
-
-$('.options').on('click', '.next', quiz.handleClick);
+$('body').on('click', '.start', quiz.start);
+$('body').on('click', '.next', quiz.click);
