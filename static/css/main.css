@@ -97,7 +97,7 @@ textarea {
    Author's custom styles
    ========================================================================== */
 body{
-    background-image: url(/img/img.png);
+    background-image: url(/static/img/bg.jpg);
     background-size: cover;
     background-repeat: no-repeat;
 }
