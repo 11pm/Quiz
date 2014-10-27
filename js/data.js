@@ -71,5 +71,15 @@ var data = {
 				{name: 'Baltimore', correct: false}
 			]
 		}
+	],
+	'Other':
+	[
+		{
+			question: 'What does GUS not teach',
+			options: [
+				{name: 'GSF2A', correct:true}
+			]
+		}
 	]
-};
+
+};	

@@ -13,13 +13,27 @@ var quiz = {
 
 	templateFolder: '/templates/',
 
+	//dynamic data from JSON file
+	data: [],
+
 	init: function(){
 		//generate all categories for user to select
 		var allCategories = [];
 	
-		for(var prop in data){
-			allCategories.push(prop);
-		}
+		//get the json file and handle categories
+		$.getJSON("/data/questions.json", function(response){
+			response.forEach(function(obj){
+				var categories = obj.category;
+				//if its unqiue
+				var idx = allCategories.indexOf(categories);
+				if(idx == -1){
+					allCategories.push(categories);
+				}
+			});
+
+			quiz.data = response;
+
+		});
 
 		this.render('categories', allCategories);
 	},
@@ -28,6 +42,7 @@ var quiz = {
 		unchecked = [];
 		//get all checkboxes
 		var children = $('.categories').children();
+
 		for (var i = 0; i < children.length; i++){
 			//checks checkboxes
 			if(children[i].checked){
@@ -49,19 +64,30 @@ var quiz = {
 	},
 
 	makeQuestions: function(){
-		//go through categories
+		/*go through categories
 		for (var category = 0; category < this.categories.length; category++){
 			//get question array of objects in a category
 			var obj = data[this.categories[category]];
+			console.log(obj);
 			//get question object if it exists
 			if(typeof obj !== 'undefined'){
 				//for every question in a cateory
 				for (var question = 0; question < obj.length; question++){
 					//add every question object to a list
+					console.log(obj)
 					this.questions.push(obj[question]);
 				}
 			}	
-		}
+		}*/
+		var data = this.data;
+		for(var i = 0; i < data.length; i++){
+			var question = data[i];
+			var idx = this.categories.indexOf(question.category);
+			
+			if(idx > -1){
+				this.questions.push(question);
+			}
+		}	
 	},
 
 	loadQuestion: function(){
@@ -74,28 +100,31 @@ var quiz = {
 		else{
 			//get current question
 			var question = this.questions[this.questionPos];
-			//update options in random orderu
-			question.options = this.shuffle(question.options);
-			//create data for Handlebars
+			console.log(question)
+			//update options in random order
 			var context = {
 				questionPos: this.questionPos + 1,
 				questionTotal: this.questions.length,
 				question: question.question,
-				options: question.options
+				options: question.options,
+				category: question.category
 			};
-			
+			console.log(context)
 			this.render('question', context);
-			//$('body').on('click', '.start', quiz.start);
-			//$('body').on('click', '.next', this.click);
-
-			console.log(this.questionPos)
 		}
 	},
 
 	click: function(){
 		var dataset = $(this).data();
-		console.log(dataset);
-		console.log(this);
+		var question = dataset.option;
+
+		if(dataset.correct == true){
+			quiz.user.correct.push(question);
+		}
+		else{
+			quiz.user.wrong.push(question);
+		}
+
 		quiz.questionPos++;
 
 		quiz.loadQuestion();
@@ -109,7 +138,7 @@ var quiz = {
 			questionTotal: quiz.questions.length, 
 			result: user
 		};
-			
+		
 		this.render('finished', context);
 	},
 
@@ -161,4 +190,5 @@ quiz.init();
 
 //Start quiz
 $('body').on('click', '.start', quiz.start);
+//
 $('body').on('click', '.next', quiz.click);
