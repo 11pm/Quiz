@@ -10,8 +10,8 @@ var quiz = {
 		correct: [],
 		wrong: []
 	},
-
-	templateFolder: '/templates/',
+	mainFolder: '/static/',
+	templateFolder: '/static/templates/',
 
 	//dynamic data from JSON file
 	data: [],
@@ -21,7 +21,7 @@ var quiz = {
 		var allCategories = [];
 	
 		//get the json file and handle categories
-		$.getJSON("/data/questions.json", function(response){
+		$.getJSON(quiz.mainFolder + "data/questions.json", function(response){
 			response.forEach(function(obj){
 				var categories = obj.category;
 				//if its unqiue
@@ -34,7 +34,7 @@ var quiz = {
 			quiz.data = response;
 
 		});
-
+		
 		this.render('categories', allCategories);
 	},
 	//get categories from user
@@ -64,21 +64,6 @@ var quiz = {
 	},
 
 	makeQuestions: function(){
-		/*go through categories
-		for (var category = 0; category < this.categories.length; category++){
-			//get question array of objects in a category
-			var obj = data[this.categories[category]];
-			console.log(obj);
-			//get question object if it exists
-			if(typeof obj !== 'undefined'){
-				//for every question in a cateory
-				for (var question = 0; question < obj.length; question++){
-					//add every question object to a list
-					console.log(obj)
-					this.questions.push(obj[question]);
-				}
-			}	
-		}*/
 		var data = this.data;
 		for(var i = 0; i < data.length; i++){
 			var question = data[i];
@@ -184,6 +169,8 @@ var quiz = {
 	}
 
 };
+
+
 
 //Start quiz
 quiz.init();
