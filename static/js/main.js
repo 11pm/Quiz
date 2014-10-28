@@ -140,6 +140,7 @@ var quiz = {
 		$.ajax({
 			url: templatePath(name),
 			method: 'GET',
+			cache: false,
 			success: function(response){
 				var template = Handlebars.compile(response);
 				$('.view').html(template(context));

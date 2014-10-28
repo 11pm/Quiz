@@ -1,6 +1,16 @@
 body {
-  background: url(/img/bg.jpg);
+  background: url(/static/img/bg.jpg);
   background-size: cover;
   background-repeat: no-repeat; }
+
+.question-container {
+  position: absolute;
+  top: 35%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-box-shadow: 0 0 33 1 rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0 0 33 1 rgba(0, 0, 0, 0.75);
+  box-shadow: 0 0 33 1 rgba(0, 0, 0, 0.75); }
 
 /*# sourceMappingURL=main.css.map */

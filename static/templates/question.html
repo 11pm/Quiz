@@ -6,11 +6,11 @@
 
     <h3>{{category}}: {{question}}?</h3>
 
-    <ul class='small-block-grid-1 options'>
+    <ul class='small-block-grid-2 options'>
 
         {{#each this.options}}
             <li class='option'>
-                <a class="next button"
+                <a class="next button radius"
                     data-option="{{this.name}}"
                     data-correct="{{this.correct}}">
                         {{this.name}}
@@ -18,5 +18,5 @@
             </li>
         {{/each}}
     </ul>
-    <a href="#" class="alert button">Bacdk</a>
+    <a href="#" class="alert button">Back</a>
 </div>
