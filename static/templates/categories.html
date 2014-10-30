@@ -1,9 +1,9 @@
 <h1>Categories</h1>
-<div class='categories'>
-	{{#each this}}
-		<input type="checkbox" id="{{this}}">
-		<label for="{{this}}">{{this}}</label>
-		<br>
-    {{/each}}
-</div>
-<button class='start'>Start</button>
+{{#each this}}
+	<a 
+	href="#"
+	class="start button wide" 
+	data-category="{{this}}"
+	>{{this}}</a>
+
+{{/each}}

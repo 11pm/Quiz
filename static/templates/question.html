@@ -6,17 +6,20 @@
 
     <h3>{{category}}: {{question}}?</h3>
 
-    <ul class='small-block-grid-2 options'>
+    <ul class='small-block-grid-1 options'>
 
         {{#each this.options}}
             <li class='option'>
-                <a class="next button radius"
-                    data-option="{{this.name}}"
-                    data-correct="{{this.correct}}">
-                        {{this.name}}
+                <a 
+                class="next button radius"
+                data-option="{{this.name}}"
+                data-correct="{{this.correct}}">
+                    {{this.name}}
                 </a>
             </li>
         {{/each}}
     </ul>
-    <a href="#" class="alert button">Back</a>
+    {{#notnull questionPos}}
+    <a href="#" class="alert button back">Back</a>
+    {{/notnull}}
 </div>

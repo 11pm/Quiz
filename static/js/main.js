@@ -1,8 +1,16 @@
+//handlebars extensions to hide back button
+Handlebars.registerHelper('notnull', function(v1, options) {
+  if(v1 != 1) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
+
 var quiz = {
 	//the current question the user sees
 	questionPos: 0,
 	//all categories a user wants
-	categories: [],
+	category:  null,
 	//all questions for a user
 	questions: [],
 	//keep user score
@@ -22,6 +30,7 @@ var quiz = {
 	
 		//get the json file and handle categories
 		$.getJSON(quiz.mainFolder + "data/questions.json", function(response){
+			console.log(response)
 			response.forEach(function(obj){
 				var categories = obj.category;
 				//if its unqiue
@@ -34,42 +43,27 @@ var quiz = {
 			quiz.data = response;
 
 		});
-		
 		this.render('categories', allCategories);
 	},
 	//get categories from user
-	start: function(){
-		unchecked = [];
-		//get all checkboxes
-		var children = $('.categories').children();
-
-		for (var i = 0; i < children.length; i++){
-			//checks checkboxes
-			if(children[i].checked){
-				//add category name to array
-				quiz.categories.push(children[i].id);
-			}
-			unchecked.push(children[i].id);
-		}
-
-		if(quiz.categories.length === 0){
-			quiz.categories = unchecked;
-		}
+	start: function(e){
+		//get category of clicked button
+		quiz.category = $(this).data().category;
 		//create the questions from what the user wants
 		quiz.makeQuestions();
 		//show questions in a random order
 		quiz.questions = quiz.shuffle(quiz.questions);
 		//show the current question
 		quiz.loadQuestion();
+
 	},
 
 	makeQuestions: function(){
 		var data = this.data;
 		for(var i = 0; i < data.length; i++){
 			var question = data[i];
-			var idx = this.categories.indexOf(question.category);
-			
-			if(idx > -1){
+			//if category of questions matches category selected
+			if(this.category === question.category){
 				this.questions.push(question);
 			}
 		}	
@@ -85,7 +79,7 @@ var quiz = {
 		else{
 			//get current question
 			var question = this.questions[this.questionPos];
-			console.log(question)
+
 			//update options in random order
 			var context = {
 				questionPos: this.questionPos + 1,
@@ -178,5 +172,9 @@ quiz.init();
 
 //Start quiz
 $('body').on('click', '.start', quiz.start);
-//
+
+//next
 $('body').on('click', '.next', quiz.click);
+
+//back
+$('body').on('click', '.back', quiz.back)
