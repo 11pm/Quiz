@@ -1,10 +1,10 @@
 from flask import Flask, request, render_template, jsonify
-from flask.ext.sqlalchemy import SQLAlchemy
+#from flask.ext.sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/QUIZ'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root@localhost/QUIZ'
 
-DB = SQLAlchemy(app)
+#DB = SQLAlchemy(app)
 
 # class Categories(db.Model):
 

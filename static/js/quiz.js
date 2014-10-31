@@ -1,10 +1,3 @@
-//handlebars extensions to hide back button
-Handlebars.registerHelper('notnull', function(v1, options) {
-  if(v1 != 1) {
-    return options.fn(this);
-  }
-  return options.inverse(this);
-});
 
 var quiz = {
 	//the current question the user sees
@@ -13,11 +6,9 @@ var quiz = {
 	category:  null,
 	//all questions for a user
 	questions: [],
-	//keep user score
-	user: {
-		correct: [],
-		wrong: []
-	},
+	//keep all anwered question objects
+	answered: [],
+
 	mainFolder: '/static/',
 	templateFolder: '/static/templates/',
 
@@ -30,7 +21,6 @@ var quiz = {
 	
 		//get the json file and handle categories
 		$.getJSON(quiz.mainFolder + "data/questions.json", function(response){
-			console.log(response)
 			response.forEach(function(obj){
 				var categories = obj.category;
 				//if its unqiue
@@ -59,6 +49,7 @@ var quiz = {
 	},
 
 	makeQuestions: function(){
+		//quiz.data
 		var data = this.data;
 		for(var i = 0; i < data.length; i++){
 			var question = data[i];
@@ -70,6 +61,7 @@ var quiz = {
 	},
 
 	loadQuestion: function(){
+
 		//check if quiz is completed
 		if (this.quizFinished()){
 			//show score and prevent going into this.function
@@ -77,6 +69,9 @@ var quiz = {
 			return false;
 		}
 		else{
+
+			//var 
+
 			//get current question
 			var question = this.questions[this.questionPos];
 
@@ -88,7 +83,7 @@ var quiz = {
 				options: question.options,
 				category: question.category
 			};
-			console.log(context)
+			
 			this.render('question', context);
 		}
 	},
@@ -96,31 +91,56 @@ var quiz = {
 	click: function(){
 		var dataset = $(this).data();
 		var question = dataset.option;
-
-		if(dataset.correct == true){
-			quiz.user.correct.push(question);
-		}
-		else{
-			quiz.user.wrong.push(question);
-		}
+		console.log(dataset)
+		quiz.answered.push(dataset)
 
 		quiz.questionPos++;
 
 		quiz.loadQuestion();
 	},
 
+	back: function(){
+		quiz.questionPos--;
+		quiz.loadQuestion();
+
+	},
+
+	next: function(){
+		quiz.questionPos++;
+		quiz.loadQuestion();
+	},
+
+	reset: function(){
+		//reset stuff
+		quiz.category = null;
+		quiz.questions = [];
+		quiz.questionPos = 0;
+		quiz.answered = [];
+		quiz.init();
+
+	},
+
 	displayScore: function(){
-		var user = this.user;
-		console.log(user);
+		var answered = quiz.answered;
+
+		var correctTotal = 0;
+		console.log(answered)
+		//get number of correct 
+		answered.filter(function(obj){
+			if (obj.correct === true){
+				return correctTotal++;
+			}
+		});
+
 		var context = {
-			correctTotal: user.correct.length,
-			questionTotal: quiz.questions.length, 
-			result: user
+			correctTotal: correctTotal,
+			questionTotal: answered.length, 
 		};
 		
 		this.render('finished', context);
 	},
 
+	//returns true if the quiz is finished
 	quizFinished: function(){
 		return this.questionPos >= this.questions.length;
 	},
@@ -165,8 +185,6 @@ var quiz = {
 
 };
 
-
-
 //Start quiz
 quiz.init();
 
@@ -174,7 +192,29 @@ quiz.init();
 $('body').on('click', '.start', quiz.start);
 
 //next
-$('body').on('click', '.next', quiz.click);
+$('body').on('click', '.answer', quiz.click);
 
 //back
-$('body').on('click', '.back', quiz.back)
+$('body').on('click', '.back', quiz.back);
+
+//next
+$('body').on('click', '.next', quiz.next);
+
+//reset quiz
+$('body').on('click', '.reset', quiz.reset);
+
+//handlebars extensions to hide back button
+Handlebars.registerHelper('notFirst', function(v1, options) {
+	if(v1 != 1) {
+    	return options.fn(this);
+  	}
+  	return options.inverse(this);
+});
+
+//hide next button if on last question
+Handlebars.registerHelper('notLast', function(v1, options){
+	if(v1 != quiz.questions.length){
+		return options.fn(this);
+	}
+	return options.inverse(this);
+});

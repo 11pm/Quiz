@@ -5,12 +5,26 @@ body {
 
 .question-container {
   position: absolute;
-  top: 35%;
+  top: 20%;
   left: 0;
   right: 0;
   bottom: 0;
   -webkit-box-shadow: 0 0 33 1 rgba(0, 0, 0, 0.75);
   -moz-box-shadow: 0 0 33 1 rgba(0, 0, 0, 0.75);
   box-shadow: 0 0 33 1 rgba(0, 0, 0, 0.75); }
+
+.view .options {
+  display: block; }
+  .view .options .option {
+    padding: 0 !important; }
+    .view .options .option a {
+      width: 100%; }
+.view .back, .view .next {
+  float: left;
+  margin: 0;
+  overflow: auto;
+  width: 50%; }
+.view .reset {
+  margin-top: 1em; }
 
 /*# sourceMappingURL=main.css.map */

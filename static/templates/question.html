@@ -1,17 +1,17 @@
-<div class="animated fadeIn">
+<div class="animated fadeIn clearfix">
     <h3 class='text-center animated fadeIn'>
         Question {{questionPos}} of {{questionTotal}}
     </h3>
     <hr>
 
-    <h3>{{category}}: {{question}}?</h3>
+    <h3>{{question}}?</h3>
 
     <ul class='small-block-grid-1 options'>
 
         {{#each this.options}}
             <li class='option'>
                 <a 
-                class="next button radius"
+                class="answer button radius"
                 data-option="{{this.name}}"
                 data-correct="{{this.correct}}">
                     {{this.name}}
@@ -19,7 +19,11 @@
             </li>
         {{/each}}
     </ul>
-    {{#notnull questionPos}}
-    <a href="#" class="alert button back">Back</a>
-    {{/notnull}}
+    {{#notFirst questionPos}}
+    <a class="alert button back">Back</a>
+    {{/notFirst}}
+
+    {{#notLast questionPos}}
+    <a class="success button next">Next</a>
+    {{/notLast}}
 </div>

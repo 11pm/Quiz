@@ -8,7 +8,7 @@ body{
 
 .question-container{
 	position: absolute;
-	top: 35%;
+	top: 20%;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -16,6 +16,24 @@ body{
 }
 
 .view{
+	.options{
+		display: block;
 
+		.option{
+			padding: 0 !important;
+			a{
+				width: 100%;
+			}
+		}
+	}
 
+	.back, .next{
+		float: left;
+		margin: 0;
+		overflow: auto;
+		width: 50%;
+	}
+	.reset{
+		margin-top: 1em;
+	}
 }

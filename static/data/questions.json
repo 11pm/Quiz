@@ -1,22 +1,35 @@
 [
-{
-	"question": "What is Linuxs mascots name",
-	"category": "Tech",
-	"options": [
-		{"name": "Linux", "correct": false},
-		{"name": "Penguin", "correct": false},
-		{"name": "Tux", "correct": true},
-		{"name": "Panda", "correct": false}
-	]
-},
-{
-	"question": "What is the most used dependecy manager for PHP",
-	"category": "Tech",
-	"options": [
-		{"name": "Composer", "correct": true},
-		{"name": "Bower", "correct": false},
-		{"name": "Gems", "correct": false}
-	]
-}
-
+	{
+		"question": "What is Linuxs mascots name",
+		"category": "Tech",
+		"options": [
+			{"name": "Linux", "correct": false},
+			{"name": "Penguin", "correct": false},
+			{"name": "Tux", "correct": true},
+			{"name": "Panda", "correct": false}
+		]
+	},
+	{
+		"question": "What is the most used dependecy manager for PHP",
+		"category": "Tech",
+		"options": [
+			{"name": "Composer", "correct": true},
+			{"name": "Bower", "correct": false},
+			{"name": "Gems", "correct": false}
+		]
+	},
+	{
+		"question": "What is Laravels command line tool",
+		"category": "Tech",
+		"options": [
+			{"name": "Artisan", "correct": true}
+		]
+	},
+	{
+		"question": "Where is the panama canal",
+		"category": "Geography",
+		"options": [
+			{"name": "Panama", "correct": true}
+		]
+	}
 ]
