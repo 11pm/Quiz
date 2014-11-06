@@ -9,11 +9,14 @@
     <ul class='small-block-grid-1 options'>
 
         {{#each this.options}}
+
             <li class='option'>
                 <a 
-                class="answer button radius"
+                class="answer button radius
+                {{#if this.answered}}success{{/if}}"
                 data-option="{{this.name}}"
-                data-correct="{{this.correct}}">
+                data-correct="{{this.correct}}"
+                data-answered="{{this.answered}}">
                     {{this.name}}
                 </a>
             </li>

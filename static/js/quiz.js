@@ -1,4 +1,3 @@
-
 var quiz = {
 	//the current question the user sees
 	questionPos: 0,
@@ -53,8 +52,17 @@ var quiz = {
 		var data = this.data;
 		for(var i = 0; i < data.length; i++){
 			var question = data[i];
+
 			//if category of questions matches category selected
 			if(this.category === question.category){
+
+				//add dynamic "answered"
+				var options = question.options;
+				options.forEach(function(obj){
+					obj["answered"] = false;
+					//console.log(obj)
+				});
+
 				this.questions.push(question);
 			}
 		}	
@@ -89,9 +97,20 @@ var quiz = {
 	},
 
 	click: function(){
+
+		var findQuestion = function(){
+			
+		}
+		var data = quiz.data;
+		console.log(data)
 		var dataset = $(this).data();
-		var question = dataset.option;
 		console.log(dataset)
+		var question = dataset.option;
+		
+
+		console.log(dataset)
+
+
 		quiz.answered.push(dataset)
 
 		quiz.questionPos++;
@@ -124,7 +143,7 @@ var quiz = {
 		var answered = quiz.answered;
 
 		var correctTotal = 0;
-		console.log(answered)
+		//console.log(answered)
 		//get number of correct 
 		answered.filter(function(obj){
 			if (obj.correct === true){

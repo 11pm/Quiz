@@ -22,7 +22,8 @@
 		"question": "What is Laravels command line tool",
 		"category": "Tech",
 		"options": [
-			{"name": "Artisan", "correct": true}
+			{"name": "Artisan", "correct": true},
+			{"name": "Generate", "correct": false}
 		]
 	},
 	{
