@@ -59,7 +59,7 @@ var quiz = {
 				//add dynamic "answered"
 				var options = question.options;
 				options.forEach(function(obj){
-					obj["answered"] = false;
+					obj.answered = false;
 					//console.log(obj)
 				});
 
@@ -82,7 +82,7 @@ var quiz = {
 
 			//get current question
 			var question = this.questions[this.questionPos];
-
+			console.log(question)
 			//update options in random order
 			var context = {
 				questionPos: this.questionPos + 1,
@@ -96,21 +96,39 @@ var quiz = {
 		}
 	},
 
+	//TODO, FIND THE QUESTION IN THE OBJECT	
 	click: function(){
 
-		var findQuestion = function(){
-			
-		}
-		var data = quiz.data;
-		console.log(data)
 		var dataset = $(this).data();
-		console.log(dataset)
-		var question = dataset.option;
-		
+		var option;
 
-		console.log(dataset)
+		var data = quiz.questions;
 
+		for(var i = 0; i < data.length; i++){
 
+			var question = data[i].options;
+
+			for(var x = 0; x < question.length; x++){
+				
+				option = question[x];
+				if(dataset.option == option.name){
+					console.log('yay')
+					option.answered = true;
+				}
+
+			}
+		}
+
+		console.log(dataset.option)
+		console.log(option.name)
+		if(dataset.option == option.name){
+			console.log('yay')
+			option.anwered = true;
+		}
+	
+		//user has answered the question
+		dataset.answered = true;
+	
 		quiz.answered.push(dataset)
 
 		quiz.questionPos++;
