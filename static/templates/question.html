@@ -11,14 +11,23 @@
         {{#each this.options}}
 
             <li class='option'>
-                <a 
-                class="answer button radius
-                {{#if this.answered}}success{{/if}}"
-                data-option="{{this.name}}"
-                data-correct="{{this.correct}}"
-                data-answered="{{this.answered}}">
+            
+
+                <label>
+                    <input 
+                    class="answer" 
+                    type="radio"
+                    name="option"
+                    data-option="{{this.name}}"
+                    data-correct="{{this.correct}}"
+                    {{#if this.answered}}
+                        checked 
+                    {{/if}}
+                    >
                     {{this.name}}
-                </a>
+                </label>
+                
+
             </li>
         {{/each}}
     </ul>
@@ -26,7 +35,5 @@
     <a class="alert button back left">Back</a>
     {{/notFirst}}
 
-    {{#notLast questionPos}}
-    <a class="success button next right">Next</a>
-    {{/notLast}}
+   
 </div>

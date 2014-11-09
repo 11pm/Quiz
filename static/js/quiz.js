@@ -32,6 +32,7 @@ var quiz = {
 			quiz.data = response;
 
 		});
+
 		this.render('categories', allCategories);
 	},
 	//get categories from user
@@ -82,7 +83,7 @@ var quiz = {
 
 			//get current question
 			var question = this.questions[this.questionPos];
-			console.log(question)
+			console.log(quiz.answered)
 			//update options in random order
 			var context = {
 				questionPos: this.questionPos + 1,
@@ -96,13 +97,10 @@ var quiz = {
 		}
 	},
 
-	//TODO, FIND THE QUESTION IN THE OBJECT	
-	click: function(){
+	changeOption: function(dataset, answered){
 
-		var dataset = $(this).data();
 		var option;
-
-		var data = quiz.questions;
+		var data = quiz.data;
 
 		for(var i = 0; i < data.length; i++){
 
@@ -112,24 +110,43 @@ var quiz = {
 				
 				option = question[x];
 				if(dataset.option == option.name){
-					console.log('yay')
-					option.answered = true;
+					option.answered = answered;
 				}
 
 			}
 		}
 
-		console.log(dataset.option)
-		console.log(option.name)
-		if(dataset.option == option.name){
-			console.log('yay')
-			option.anwered = true;
-		}
-	
-		//user has answered the question
+		return option;
+	},
+
+	//TODO, FIND THE QUESTION IN THE OBJECT	
+	click: function(){
+
+		var dataset = $(this).data();
+		var option;
+		var data = quiz.questions;
+
+		option = quiz.changeOption(dataset, true);
+
 		dataset.answered = true;
 	
-		quiz.answered.push(dataset)
+		quiz.answered.filter(function(obj, index, w){
+		
+			//if it is the current question
+			//remove the option and add a new one
+			if(obj.questionIndex == quiz.questionPos){
+				quiz.changeOption(dataset, false);
+				quiz.answered.splice(index);
+			}
+
+		});
+
+		quiz.answered.push({
+			questionIndex: quiz.questionPos,
+			dataset: dataset
+		});
+
+		
 
 		quiz.questionPos++;
 
@@ -159,12 +176,12 @@ var quiz = {
 
 	displayScore: function(){
 		var answered = quiz.answered;
-
+		console.log(answered)
 		var correctTotal = 0;
 		//console.log(answered)
 		//get number of correct 
 		answered.filter(function(obj){
-			if (obj.correct === true){
+			if (obj.dataset.correct === true){
 				return correctTotal++;
 			}
 		});
@@ -255,3 +272,14 @@ Handlebars.registerHelper('notLast', function(v1, options){
 	}
 	return options.inverse(this);
 });
+/*
+    <a 
+                class="answer button radius
+                {{#if this.answered}}success{{/if}}"
+                data-option="{{this.name}}"
+                data-correct="{{this.correct}}"
+                data-answered="{{this.answered}}"
+                name="question">
+                    {{this.name}}
+                </a>
+                */

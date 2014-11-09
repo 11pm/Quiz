@@ -27,4 +27,9 @@ body {
 .view .reset {
   margin-top: 1em; }
 
+.categories {
+  display: block; }
+  .categories a {
+    width: 100%; }
+
 /*# sourceMappingURL=main.css.map */
