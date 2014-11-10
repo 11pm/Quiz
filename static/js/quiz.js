@@ -122,29 +122,6 @@ var quiz = {
 		}
 	},
 
-	changeOption: function(dataset, answered){
-
-		var option;
-		var data = quiz.data;
-
-		for(var i = 0; i < data.length; i++){
-
-			var question = data[i].options;
-
-			for(var x = 0; x < question.length; x++){
-				
-				option = question[x];
-				if(dataset.option == option.name){
-					option.answered = answered;
-				}
-
-			}
-		}
-
-		return option;
-	},
-
-	//TODO, FIND THE QUESTION IN THE OBJECT	
 	click: function(){
 
 		var dataset = $(this).data();
@@ -281,6 +258,12 @@ $('body').on('click', '.next', quiz.next);
 
 //reset quiz
 $('body').on('click', '.reset', quiz.reset);
+
+$('body').keydown(function(evt){
+	if(evt.which == 37 && quiz.questionPos>0 && !quiz.quizFinished()){
+		quiz.back();
+	}
+});
 
 //handlebars extensions to hide back button
 Handlebars.registerHelper('notFirst', function(v1, options) {
