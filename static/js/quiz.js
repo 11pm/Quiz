@@ -1,6 +1,6 @@
 var quiz = {
 	//the current question the user sees
-	questionPos: 0,
+	questionPos: -1,
 	//all categories a user wants
 	category:  null,
 	//all questions for a user
@@ -55,6 +55,8 @@ var quiz = {
 	},
 	//get categories from user
 	start: function(e){
+		//set the index to 0 to get the first question
+		quiz.questionPos = 0;
 		//get category of clicked button
 		quiz.category = $(this).data().category;
 		//create the questions from what the user wants
@@ -165,7 +167,7 @@ var quiz = {
 		//reset stuff
 		quiz.category = null;
 		quiz.questions = [];
-		quiz.questionPos = 0;
+		quiz.questionPos = -1;
 		quiz.answered = [];
 
 		localStorage.removeItem('questionPos');
@@ -259,10 +261,18 @@ $('body').on('click', '.next', quiz.next);
 //reset quiz
 $('body').on('click', '.reset', quiz.reset);
 
-$('body').keydown(function(evt){
-	if(evt.which == 37 && quiz.questionPos>0 && !quiz.quizFinished()){
+//handle user keydown
+$('body').keydown(function(e){
+	
+	//if quiz is done, kill the event listener
+	if(quiz.quizFinished()){
+		$('body').unbind('keydown');
+	}
+
+	if(e.which == 37 && quiz.questionPos>0){
 		quiz.back();
 	}
+
 });
 
 //handlebars extensions to hide back button
@@ -273,6 +283,7 @@ Handlebars.registerHelper('notFirst', function(v1, options) {
   	return options.inverse(this);
 });
 
+//Helper to check if option is correct
 Handlebars.registerHelper('isCorrect', function(option, options){
 	correct = false;
 	
