@@ -20,17 +20,14 @@ var quiz = {
 		var local_questions = JSON.parse(localStorage.getItem('questions'));
 		var local_answered  = JSON.parse(localStorage.getItem('answered'));
 		var local_category  = localStorage.getItem('category');
-		var local_data      = JSON.parse(localStorage.getItem('data'));
 
 
-		if(local_pos && local_questions && local_answered && local_category && local_data){
+		if( (local_pos == 0 || true) && local_questions && local_answered && local_category ){
 			//set quiz data
 			this.questionPos = local_pos;
 			this.questions   = local_questions;
 			this.answered    = local_answered;
 			this.category    = local_category;
-			this.data        = local_data;
-			console.log(this.data)
 			//load the question, stop from getting new data
 			this.loadQuestion();
 			return false;
@@ -103,6 +100,7 @@ var quiz = {
 			return false;
 		}
 		else{
+			
 
 			localStorage.setItem('questionPos', this.questionPos);
 			localStorage.setItem('answered', JSON.stringify(this.answered));
@@ -120,7 +118,7 @@ var quiz = {
 			};
 			
 			this.render('question', context);
-			
+
 		}
 	},
 
@@ -152,18 +150,14 @@ var quiz = {
 		var dataset = $(this).data();
 		var option;
 		var data = quiz.questions;
-
-		
-
-		dataset.answered = true;
 	
 		quiz.answered.filter(function(obj, index){
 		
 			//if it is the current question
 			//remove the option and add a new one
 			if(obj.questionIndex == quiz.questionPos){
-				option = quiz.changeOption(dataset, false);
-				quiz.answered.splice(index);
+				
+				quiz.answered.splice(index, index+1);
 			}
 
 		});
@@ -173,11 +167,6 @@ var quiz = {
 			questionIndex: quiz.questionPos,
 			dataset: dataset
 		});
-
-		//set quiz option to answered
-		option = quiz.changeOption(dataset, true);
-		
-		localStorage.setItem('data', JSON.stringify(quiz.data));
 
 		quiz.questionPos++;
 
@@ -206,7 +195,6 @@ var quiz = {
 		localStorage.removeItem('questions');
 		localStorage.removeItem('answered');
 		localStorage.removeItem('category');
-		localStorage.removeItem('data');
 
 		quiz.init();
 
@@ -300,4 +288,21 @@ Handlebars.registerHelper('notFirst', function(v1, options) {
     	return options.fn(this);
   	}
   	return options.inverse(this);
+});
+
+Handlebars.registerHelper('isCorrect', function(option, options){
+	correct = false;
+	
+	//loop through all user answers
+	quiz.answered.forEach(function(obj){
+		//check if option name matches any answer
+		if(obj.dataset.option == option) correct = true;
+
+	});
+
+	if(correct){
+		return options.fn(this);
+	}
+	return options.inverse(this);
+
 });

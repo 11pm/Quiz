@@ -20,9 +20,9 @@
                     name="option"
                     data-option="{{this.name}}"
                     data-correct="{{this.correct}}"
-                    {{#if this.answered}}
+                    {{#isCorrect this.name}}
                         checked 
-                    {{/if}}
+                    {{/isCorrect}}
                     >
                     {{this.name}}
                 </label>
