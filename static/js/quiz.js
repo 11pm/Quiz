@@ -15,9 +15,26 @@ var quiz = {
 	data: [],
 
 	init: function(){
+		//if questionPos in localstorage is set, use it
+		var local_pos = localStorage.getItem('questionPos');
+		var local_questions = JSON.parse(localStorage.getItem('questions'));
+		var local_answered = JSON.parse(localStorage.getItem('answered'));
+		var local_category = localStorage.getItem('category');
+
+		if(local_pos && local_questions && local_answered && local_category){
+			//set quiz data
+			this.questionPos = local_pos;
+			this.questions   = local_questions;
+			this.answered    = local_answered;
+			this.category    = local_category;
+			console.log(this.questions);
+			this.loadQuestion();
+			return false;
+		}
+
 		//generate all categories for user to select
 		var allCategories = [];
-	
+		
 		//get the json file and handle categories
 		$.getJSON(quiz.mainFolder + "data/questions.json", function(response){
 			response.forEach(function(obj){
@@ -43,6 +60,11 @@ var quiz = {
 		quiz.makeQuestions();
 		//show questions in a random order
 		quiz.questions = quiz.shuffle(quiz.questions);
+
+		//set localstorage items
+		localStorage.setItem('category', quiz.category);
+		localStorage.setItem('questions', JSON.stringify(quiz.questions));
+
 		//show the current question
 		quiz.loadQuestion();
 
@@ -61,7 +83,6 @@ var quiz = {
 				var options = question.options;
 				options.forEach(function(obj){
 					obj.answered = false;
-					//console.log(obj)
 				});
 
 				this.questions.push(question);
@@ -78,12 +99,11 @@ var quiz = {
 			return false;
 		}
 		else{
-
-			//var 
-
+			localStorage.setItem('questionPos', this.questionPos);
+			localStorage.setItem('answered', JSON.stringify(this.answered));
 			//get current question
 			var question = this.questions[this.questionPos];
-			console.log(quiz.answered)
+			
 			//update options in random order
 			var context = {
 				questionPos: this.questionPos + 1,
@@ -126,26 +146,26 @@ var quiz = {
 		var option;
 		var data = quiz.questions;
 
-		option = quiz.changeOption(dataset, true);
+		
 
 		dataset.answered = true;
 	
-		quiz.answered.filter(function(obj, index, w){
+		quiz.answered.filter(function(obj, index){
 		
 			//if it is the current question
 			//remove the option and add a new one
 			if(obj.questionIndex == quiz.questionPos){
-				quiz.changeOption(dataset, false);
+				option = quiz.changeOption(dataset, false);
 				quiz.answered.splice(index);
 			}
 
 		});
-
+		//add the new option
 		quiz.answered.push({
 			questionIndex: quiz.questionPos,
 			dataset: dataset
 		});
-
+		option = quiz.changeOption(dataset, true);
 		
 
 		quiz.questionPos++;
@@ -176,7 +196,6 @@ var quiz = {
 
 	displayScore: function(){
 		var answered = quiz.answered;
-		console.log(answered)
 		var correctTotal = 0;
 		//console.log(answered)
 		//get number of correct 
@@ -264,22 +283,3 @@ Handlebars.registerHelper('notFirst', function(v1, options) {
   	}
   	return options.inverse(this);
 });
-
-//hide next button if on last question
-Handlebars.registerHelper('notLast', function(v1, options){
-	if(v1 != quiz.questions.length){
-		return options.fn(this);
-	}
-	return options.inverse(this);
-});
-/*
-    <a 
-                class="answer button radius
-                {{#if this.answered}}success{{/if}}"
-                data-option="{{this.name}}"
-                data-correct="{{this.correct}}"
-                data-answered="{{this.answered}}"
-                name="question">
-                    {{this.name}}
-                </a>
-                */
