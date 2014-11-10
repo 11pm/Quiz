@@ -1,7 +1,7 @@
 [
 	{
 		"question": "What is Linuxs mascots name",
-		"category": "Tech",
+		"category": "Programming",
 		"options": [
 			{"name": "Linux", "correct": false},
 			{"name": "Penguin", "correct": false},
@@ -11,7 +11,7 @@
 	},
 	{
 		"question": "What is the most used dependecy manager for PHP",
-		"category": "Tech",
+		"category": "Programming",
 		"options": [
 			{"name": "Composer", "correct": true},
 			{"name": "Bower", "correct": false},
@@ -20,10 +20,19 @@
 	},
 	{
 		"question": "What is Laravels command line tool",
-		"category": "Tech",
+		"category": "Programming",
 		"options": [
 			{"name": "Artisan", "correct": true},
 			{"name": "Generate", "correct": false}
+		]
+	},
+	{
+		"question": "What is the current Java version",
+		"category": "Programming",
+		"options": [
+			{"name": "Java SE8", "correct": true},
+			{"name": "Java Version 2014", "correct" : false},
+			{"name": "Java SE7", "correct": true}
 		]
 	},
 	{

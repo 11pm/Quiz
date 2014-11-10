@@ -16,18 +16,22 @@ var quiz = {
 
 	init: function(){
 		//if questionPos in localstorage is set, use it
-		var local_pos = localStorage.getItem('questionPos');
+		var local_pos       = parseInt(localStorage.getItem('questionPos'));
 		var local_questions = JSON.parse(localStorage.getItem('questions'));
-		var local_answered = JSON.parse(localStorage.getItem('answered'));
-		var local_category = localStorage.getItem('category');
+		var local_answered  = JSON.parse(localStorage.getItem('answered'));
+		var local_category  = localStorage.getItem('category');
+		var local_data      = JSON.parse(localStorage.getItem('data'));
 
-		if(local_pos && local_questions && local_answered && local_category){
+
+		if(local_pos && local_questions && local_answered && local_category && local_data){
 			//set quiz data
 			this.questionPos = local_pos;
 			this.questions   = local_questions;
 			this.answered    = local_answered;
 			this.category    = local_category;
-			console.log(this.questions);
+			this.data        = local_data;
+			console.log(this.data)
+			//load the question, stop from getting new data
 			this.loadQuestion();
 			return false;
 		}
@@ -99,8 +103,10 @@ var quiz = {
 			return false;
 		}
 		else{
+
 			localStorage.setItem('questionPos', this.questionPos);
 			localStorage.setItem('answered', JSON.stringify(this.answered));
+			
 			//get current question
 			var question = this.questions[this.questionPos];
 			
@@ -114,6 +120,7 @@ var quiz = {
 			};
 			
 			this.render('question', context);
+			
 		}
 	},
 
@@ -160,13 +167,17 @@ var quiz = {
 			}
 
 		});
+
 		//add the new option
 		quiz.answered.push({
 			questionIndex: quiz.questionPos,
 			dataset: dataset
 		});
+
+		//set quiz option to answered
 		option = quiz.changeOption(dataset, true);
 		
+		localStorage.setItem('data', JSON.stringify(quiz.data));
 
 		quiz.questionPos++;
 
@@ -190,6 +201,13 @@ var quiz = {
 		quiz.questions = [];
 		quiz.questionPos = 0;
 		quiz.answered = [];
+
+		localStorage.removeItem('questionPos');
+		localStorage.removeItem('questions');
+		localStorage.removeItem('answered');
+		localStorage.removeItem('category');
+		localStorage.removeItem('data');
+
 		quiz.init();
 
 	},
@@ -197,7 +215,7 @@ var quiz = {
 	displayScore: function(){
 		var answered = quiz.answered;
 		var correctTotal = 0;
-		//console.log(answered)
+
 		//get number of correct 
 		answered.filter(function(obj){
 			if (obj.dataset.correct === true){
