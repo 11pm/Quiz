@@ -283,6 +283,16 @@ Handlebars.registerHelper('notFirst', function(v1, options) {
   	return options.inverse(this);
 });
 
+Handlebars.registerHelper('notLast', function(v1, options){
+
+	var totalLength = quiz.questions.length;
+
+	if(v1 < totalLength){
+		return options.fn(this)
+	}
+	return options.inverse(this);
+});
+
 //Helper to check if option is correct
 Handlebars.registerHelper('isCorrect', function(option, options){
 	correct = false;
