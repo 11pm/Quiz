@@ -146,25 +146,29 @@ var quiz = {
 		localStorage.setItem('questionPos', quiz.questionPos);
 		localStorage.setItem('answered', JSON.stringify(quiz.answered));
 
+		//if the user has answered everything, create submit button
 		if (quiz.isAnswered()){
 			quiz.loadQuestion();
 		}
 
 	},
 
+	//goes to previous
 	back: function(){
 		quiz.questionPos--;
 		quiz.loadQuestion();
 
 	},
 
+	//goes to next question
 	next: function(){
 		quiz.questionPos++;
 		quiz.loadQuestion();
 	},
 
+	//resets variables in quiz, and starts at menu
+
 	reset: function(){
-		//reset stuff
 		quiz.category = null;
 		quiz.questions = [];
 		quiz.questionPos = -1;
@@ -179,11 +183,12 @@ var quiz = {
 
 	},
 
+	//Final screen
 	displayScore: function(){
 		var answered = quiz.answered;
 		var correctTotal = 0;
 
-		//get number of correct 
+		//get number of correct options 
 		answered.filter(function(obj){
 			if (obj.dataset.correct === true){
 				return correctTotal++;
@@ -203,6 +208,7 @@ var quiz = {
 		return this.questionPos >= this.questions.length;
 	},
 
+	//checks if user has answered all questions
 	isAnswered: function(){
 		return this.answered.length === this.questions.length;
 	},
@@ -213,6 +219,7 @@ var quiz = {
 			return quiz.templateFolder + name + '.html';
 		};
 		
+		//Get a new template, replace .view div content with the new content
 		$.ajax({
 			url: templatePath(name),
 			method: 'GET',
