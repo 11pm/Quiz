@@ -122,17 +122,20 @@ var quiz = {
 
 	click: function(){
 
+		
+
 		var dataset = $(this).data();
 		var option;
 		var data = quiz.questions;
-		
+
 		quiz.answered.filter(function(obj, index){
 		
 			//if it is the current question
 			//remove the option and add a new one
-			if(obj.questionIndex == quiz.questionPos){
+			if(obj.questionIndex === quiz.questionPos){
 				
 				quiz.answered.splice(index, index+1);
+	
 			}
 
 		});
@@ -143,13 +146,13 @@ var quiz = {
 			dataset: dataset
 		});
 
+		//set new localstorage items
 		localStorage.setItem('questionPos', quiz.questionPos);
 		localStorage.setItem('answered', JSON.stringify(quiz.answered));
-
 		//if the user has answered everything, create submit button
 		if (quiz.isAnswered()){
 			quiz.loadQuestion();
-		}
+		}		
 
 	},
 
@@ -162,7 +165,9 @@ var quiz = {
 
 	//goes to next question
 	next: function(){
+
 		quiz.questionPos++;
+		
 		quiz.loadQuestion();
 	},
 
@@ -290,6 +295,8 @@ $('body').bind('keydown', function(e){
 		quiz.next();
 	}
 
+	//arrow keys are doing something fucked up, stop them
+	return false;
 });
 
 //hide back button in the first question

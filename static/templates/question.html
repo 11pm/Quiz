@@ -11,8 +11,6 @@
         {{#each this.options}}
 
             <li class='option'>
-            
-
                 <label>
                     <input 
                     class="answer" 
@@ -26,9 +24,8 @@
                     >
                     {{this.name}}
                 </label>
-                
-
             </li>
+            
         {{/each}}
     </ul>
     {{#notFirst questionPos}}
@@ -42,4 +39,5 @@
     {{#isCompleted questionPos}}
     <a class="success button next right">Submit</a>
     {{/isCompleted}}
+
 </div>
