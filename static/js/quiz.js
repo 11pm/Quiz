@@ -103,10 +103,6 @@ var quiz = {
 		}
 		else{
 			
-
-			localStorage.setItem('questionPos', this.questionPos);
-			localStorage.setItem('answered', JSON.stringify(this.answered));
-			
 			//get current question
 			var question = this.questions[this.questionPos];
 			
@@ -129,7 +125,7 @@ var quiz = {
 		var dataset = $(this).data();
 		var option;
 		var data = quiz.questions;
-	
+		
 		quiz.answered.filter(function(obj, index){
 		
 			//if it is the current question
@@ -147,9 +143,13 @@ var quiz = {
 			dataset: dataset
 		});
 
-		quiz.questionPos++;
+		localStorage.setItem('questionPos', quiz.questionPos);
+		localStorage.setItem('answered', JSON.stringify(quiz.answered));
 
-		quiz.loadQuestion();
+		if (quiz.isAnswered()){
+			quiz.loadQuestion();
+		}
+
 	},
 
 	back: function(){
@@ -201,6 +201,10 @@ var quiz = {
 	//returns true if the quiz is finished
 	quizFinished: function(){
 		return this.questionPos >= this.questions.length;
+	},
+
+	isAnswered: function(){
+		return this.answered.length === this.questions.length;
 	},
 
 	render: function(name, context){
@@ -262,20 +266,26 @@ $('body').on('click', '.next', quiz.next);
 $('body').on('click', '.reset', quiz.reset);
 
 //handle user keydown
-$('body').keydown(function(e){
+$('body').bind('keydown', function(e){
 	
 	//if quiz is done, kill the event listener
 	if(quiz.quizFinished()){
 		$('body').unbind('keydown');
 	}
 
+	//Left arrow key, go back exept first question
 	if(e.which == 37 && quiz.questionPos>0){
 		quiz.back();
 	}
 
+	//Right arrow key, go next question exept on last question
+	if(e.which == 39 && quiz.questionPos != quiz.questions.length-1){
+		quiz.next();
+	}
+
 });
 
-//handlebars extensions to hide back button
+//hide back button in the first question
 Handlebars.registerHelper('notFirst', function(v1, options) {
 	if(v1 != 1) {
     	return options.fn(this);
@@ -283,14 +293,27 @@ Handlebars.registerHelper('notFirst', function(v1, options) {
   	return options.inverse(this);
 });
 
+//hide next button in the last question
 Handlebars.registerHelper('notLast', function(v1, options){
 
 	var totalLength = quiz.questions.length;
 
 	if(v1 < totalLength){
-		return options.fn(this)
+		return options.fn(this);
 	}
 	return options.inverse(this);
+});
+
+//checks if it should show the submit button
+Handlebars.registerHelper('isCompleted', function(v1, options){
+	
+	quiz.isAnswered();
+
+	if (v1 == quiz.questions.length && quiz.isAnswered()) {
+		return options.fn(this);
+	}
+	return options.inverse(this);
+
 });
 
 //Helper to check if option is correct

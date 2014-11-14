@@ -1,5 +1,5 @@
-<div class="animated fadeIn clearfix">
-    <h3 class='text-center animated fadeIn'>
+<div class="clearfix">
+    <h3 class='text-center'>
         Question {{questionPos}} of {{questionTotal}}
     </h3>
     <hr>
@@ -38,4 +38,8 @@
     {{#notLast questionPos}}
     <a class="success button next right">Next</a>
     {{/notLast}}
+
+    {{#isCompleted questionPos}}
+    <a class="success button next right">Submit</a>
+    {{/isCompleted}}
 </div>
