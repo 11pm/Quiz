@@ -15,6 +15,10 @@ var quiz = {
 	data: [],
 
 	init: function(){
+
+		//Add new event listener
+		$('body').bind('keydown', quiz.keys);
+
 		//if questionPos in localstorage is set, use it
 		var local_pos       = parseInt(localStorage.getItem('questionPos'));
 		var local_questions = JSON.parse(localStorage.getItem('questions'));
@@ -84,6 +88,8 @@ var quiz = {
 
 				//add dynamic "answered"
 				var options = question.options;
+				question.options = this.shuffle(options);
+
 				options.forEach(function(obj){
 					obj.answered = false;
 				});
@@ -103,9 +109,13 @@ var quiz = {
 		}
 		else{
 			
+			//set new localstorage items
+			localStorage.setItem('questionPos', quiz.questionPos);
 			//get current question
 			var question = this.questions[this.questionPos];
-			
+			console.log(question)
+			console.log(question)
+
 			//update options in random order
 			var context = {
 				questionPos: this.questionPos + 1,
@@ -146,9 +156,8 @@ var quiz = {
 			dataset: dataset
 		});
 
-		//set new localstorage items
-		localStorage.setItem('questionPos', quiz.questionPos);
 		localStorage.setItem('answered', JSON.stringify(quiz.answered));
+
 		//if the user has answered everything, create submit button
 		if (quiz.isAnswered()){
 			quiz.loadQuestion();
@@ -156,6 +165,25 @@ var quiz = {
 
 	},
 
+	keys: function(e){
+		//if quiz is done, kill the event listener
+		if(quiz.quizFinished()){
+			$('body').unbind('keydown');
+		}
+
+		//Left arrow key, go back exept first question
+		if(e.which == 37 && quiz.questionPos>0){
+			quiz.back();
+		}
+
+		//Right arrow key, go next question exept on last question
+		if(e.which == 39 && quiz.questionPos != quiz.questions.length-1){
+			quiz.next();
+		}
+
+		//arrow keys are doing something fucked up, stop them
+		return false;
+	},
 	//goes to previous
 	back: function(){
 		quiz.questionPos--;
@@ -174,6 +202,9 @@ var quiz = {
 	//resets variables in quiz, and starts at menu
 
 	reset: function(){
+		//reset event listener
+		$('body').unbind('keydown');
+
 		quiz.category = null;
 		quiz.questions = [];
 		quiz.questionPos = -1;
@@ -276,28 +307,6 @@ $('body').on('click', '.next', quiz.next);
 
 //reset quiz
 $('body').on('click', '.reset', quiz.reset);
-
-//handle user keydown
-$('body').bind('keydown', function(e){
-	
-	//if quiz is done, kill the event listener
-	if(quiz.quizFinished()){
-		$('body').unbind('keydown');
-	}
-
-	//Left arrow key, go back exept first question
-	if(e.which == 37 && quiz.questionPos>0){
-		quiz.back();
-	}
-
-	//Right arrow key, go next question exept on last question
-	if(e.which == 39 && quiz.questionPos != quiz.questions.length-1){
-		quiz.next();
-	}
-
-	//arrow keys are doing something fucked up, stop them
-	return false;
-});
 
 //hide back button in the first question
 Handlebars.registerHelper('notFirst', function(v1, options) {
