@@ -88,6 +88,7 @@ var quiz = {
 
 				//add dynamic "answered"
 				var options = question.options;
+				//shuffle options
 				question.options = this.shuffle(options);
 
 				options.forEach(function(obj){
@@ -113,9 +114,6 @@ var quiz = {
 			localStorage.setItem('questionPos', quiz.questionPos);
 			//get current question
 			var question = this.questions[this.questionPos];
-			console.log(question)
-			console.log(question)
-
 			//update options in random order
 			var context = {
 				questionPos: this.questionPos + 1,
