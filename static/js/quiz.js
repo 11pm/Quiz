@@ -33,6 +33,10 @@ var quiz = {
 			this.answered    = local_answered;
 			this.category    = local_category;
 			//load the question, stop from getting new data
+			if(this.questionPos == "finished"){
+				this.displayScore();
+				return false;
+			}
 			this.loadQuestion();
 			return false;
 		}
@@ -101,17 +105,21 @@ var quiz = {
 	},
 
 	loadQuestion: function(){
-
+		//set new localstorage items
+		localStorage.setItem('questionPos', quiz.questionPos);
+		
 		//check if quiz is completed
 		if (this.quizFinished()){
+			//kill event listener if user has submited
+			$('body').off('keydown', quiz.keys);
+
 			//show score and prevent going into this.function
 			this.displayScore();
 			return false;
 		}
 		else{
 			
-			//set new localstorage items
-			localStorage.setItem('questionPos', quiz.questionPos);
+			
 			//get current question
 			var question = this.questions[this.questionPos];
 			//update options in random order
@@ -129,8 +137,6 @@ var quiz = {
 	},
 
 	click: function(){
-
-		
 
 		var dataset = $(this).data();
 		var option;
@@ -164,10 +170,6 @@ var quiz = {
 	},
 
 	keys: function(e){
-		//if quiz is done, kill the event listener
-		if(quiz.quizFinished()){
-			$('body').unbind('keydown');
-		}
 
 		//Left arrow key, go back exept first question
 		if(e.which == 37 && quiz.questionPos>0){
@@ -201,8 +203,7 @@ var quiz = {
 
 	reset: function(){
 		//reset event listener
-		$('body').unbind('keydown');
-
+		$('body').off('keydown', quiz.keys);
 		quiz.category = null;
 		quiz.questions = [];
 		quiz.questionPos = -1;
