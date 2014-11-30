@@ -14,6 +14,8 @@ var quiz = {
 	//dynamic data from JSON file
 	data: [],
 
+	user: null,
+
 	init: function(){
 		//Add new event listener
 		$('body').bind('keydown', quiz.keys);
@@ -23,14 +25,15 @@ var quiz = {
 		var local_questions = JSON.parse(localStorage.getItem('questions'));
 		var local_answered  = JSON.parse(localStorage.getItem('answered'));
 		var local_category  = localStorage.getItem('category');
+		var local_user      = localStorage.getItem('user');
 
-
-		if( (local_pos == 0 || true) && local_questions && local_answered && local_category ){
+		if( (local_pos == 0 || true) && local_questions && local_answered && local_category && local_user){
 			//set quiz data
 			this.questionPos = local_pos;
 			this.questions   = local_questions;
 			this.answered    = local_answered;
 			this.category    = local_category;
+			this.user        = local_user;
 			//load the question, stop from getting new data
 			if(this.questionPos == "finished"){
 				this.displayScore();
@@ -229,6 +232,12 @@ var quiz = {
 
 	//Final screen
 	displayScore: function(){
+		//if user is remebered skip other steps
+		if(quiz.user){
+			quiz.showLeaderboards();
+			return false;
+		}
+
 		var answered     = quiz.answered;
 		var correctTotal = 0;
 
@@ -246,50 +255,70 @@ var quiz = {
 			error = arguments[1];
 		}
 
-		//get number of correct options 
-		answered.filter(function(obj){
-			if (obj.dataset.correct === true){
-				return correctTotal++;
-			}
-		});
+		
 
 		if(arguments[2]){
 			username = arguments[2];
+
+			//"remeber the user"
+			localStorage.setItem('user', username);
+			quiz.user = username;
+
+			//create record in database
 			//Send to database before we get the table
 			$.ajax({
 				type: "POST",
 				url: quiz.apiBase + "leaderboards/create",
 				data: {
-					username: username,
-					score: correctTotal
+					username: quiz.user,
+					score: correctTotal,
+					category: quiz.category
 				},
 				success: function(response){
 					console.log(response)
 				}
 			});
 		}
-		
-		//Get the leaderboards
+		quiz.showLeaderboards();
+			
+
+	},
+
+	showLeaderboards: function(){
+		var correctTotal = 0;
+		var leaderboards = [];
+		//get number of correct options 
+		quiz.answered.filter(function(obj){
+			if (obj.dataset.correct === true){
+				return correctTotal++;
+			}
+		});
+		//create the context
+		var context = {
+			correctTotal: correctTotal,
+			questionTotal: quiz.answered.length,
+			percent: quiz.toPercent(correctTotal, quiz.answered.length),
+			submitted: true,
+			error: false,
+			leaderboards: leaderboards
+		};
+
+		//get quiz leaderboards
 		$.ajax({
 			type: "POST",
 			url: quiz.apiBase + "leaderboards",
 			async: false,
+			data: {	
+				category: quiz.category
+			},
 			success: function(response){
-				leaderboards = JSON.parse(response);
+				console.log(response);
+				context.leaderboards = JSON.parse(response);
 			} 
 		});
-
-		console.log(leaderboards)
-		var context = {
-			correctTotal: correctTotal,
-			questionTotal: answered.length,
-			percent: quiz.toPercent(correctTotal, answered.length),
-			submitted: submitted,
-			error: error,
-			leaderboards: leaderboards
-		};
+		//wait for new leaderboard data
 		
-		this.render('finished', context);
+		quiz.render('finished', context);		
 	},
 
 	submit: function(e){
@@ -302,9 +331,9 @@ var quiz = {
 			//show with error 
 			quiz.displayScore(false, true);
 			return false;
-
 		}
-		quiz.displayScore(true, false, username)
+
+		quiz.displayScore(true, false, username);
 
 	},
 

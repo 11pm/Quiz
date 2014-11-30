@@ -7,5 +7,6 @@ CREATE table leaderboards(
 	id int auto_increment,
 	username varchar(255),
 	score int,
+	category varchar(255),
 	CONSTRAINT leaderboards_PK primary key(id)
 );
