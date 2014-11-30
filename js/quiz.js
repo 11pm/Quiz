@@ -15,7 +15,6 @@ var quiz = {
 	data: [],
 
 	init: function(){
-
 		//Add new event listener
 		$('body').bind('keydown', quiz.keys);
 
@@ -171,18 +170,22 @@ var quiz = {
 
 	keys: function(e){
 
+		var left = e.which == 37;
+		var right = e.which == 39;
+
 		//Left arrow key, go back exept first question
-		if(e.which == 37 && quiz.questionPos>0){
+		if(left && quiz.questionPos>0){
 			quiz.back();
 		}
 
 		//Right arrow key, go next question exept on last question
-		if(e.which == 39 && quiz.questionPos != quiz.questions.length-1){
+		if(right && quiz.questionPos != quiz.questions.length-1){
 			quiz.next();
 		}
 
 		//arrow keys are doing something fucked up, stop them
-		return false;
+		if(left || right)
+			return false;
 	},
 	//goes to previous
 	back: function(){

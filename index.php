@@ -19,7 +19,7 @@
                 <div class="panel animated fadeIn quiz">
                 
                     <div class="view"></div>
-
+     
                 </div>
             </div>
         </div>
