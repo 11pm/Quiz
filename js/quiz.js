@@ -10,7 +10,7 @@ var quiz = {
 
 	mainFolder: '',
 	templateFolder: 'templates/',
-
+	apiBase: 'api/index.php/',
 	//dynamic data from JSON file
 	data: [],
 
@@ -231,8 +231,11 @@ var quiz = {
 	displayScore: function(){
 		var answered     = quiz.answered;
 		var correctTotal = 0;
+
 		var submitted    = false;
 		var error        = false;
+		var username     = "";
+		var leaderboards = [];
 
 		//if passed in arg 1
 		if(arguments[0]){ 
@@ -249,13 +252,41 @@ var quiz = {
 				return correctTotal++;
 			}
 		});
+
+		if(arguments[2]){
+			username = arguments[2];
+			//Send to database before we get the table
+			$.ajax({
+				type: "POST",
+				url: quiz.apiBase + "leaderboards/create",
+				data: {
+					username: username,
+					score: correctTotal
+				},
+				success: function(response){
+					console.log(response)
+				}
+			});
+		}
 		
+		//Get the leaderboards
+		$.ajax({
+			type: "POST",
+			url: quiz.apiBase + "leaderboards",
+			async: false,
+			success: function(response){
+				leaderboards = JSON.parse(response);
+			} 
+		});
+
+		console.log(leaderboards)
 		var context = {
 			correctTotal: correctTotal,
 			questionTotal: answered.length,
 			percent: quiz.toPercent(correctTotal, answered.length),
 			submitted: submitted,
-			error: error
+			error: error,
+			leaderboards: leaderboards
 		};
 		
 		this.render('finished', context);
@@ -273,8 +304,7 @@ var quiz = {
 			return false;
 
 		}
-
-		quiz.displayScore(true);
+		quiz.displayScore(true, false, username)
 
 	},
 

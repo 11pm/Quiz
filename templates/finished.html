@@ -5,6 +5,7 @@
 <h4>Leaderboards</h4>
 
 {{#if submitted}}
+
 <table>
   <thead>
     <tr>
@@ -13,23 +14,19 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Content Goes Here</td>
-      <td>1100</td>
- 
-    </tr>
-    <tr>
-      <td>Content Goes Here</td>
-      <td>5000.</td>
     
-    </tr>
-    <tr>
-      <td>Content Goes Here</td>
-      <td>20000</td>
-  
-    </tr>
+
+   {{#each leaderboards}}
+   		<tr>
+   			<td>{{this.username}}</td>
+   			<td>{{this.score}}</td>
+   		</tr>
+   {{/each}}
+
   </tbody>
+   
 </table>
+
 {{else}}
 <div class="row collapse">
 
