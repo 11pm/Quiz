@@ -8,9 +8,9 @@
         <meta name="author" content="Alexander Hilmar">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/foundation.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/animate.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+        <link rel="stylesheet" type="text/css" href="css/foundation.css">
+        <link rel="stylesheet" type="text/css" href="css/animate.css">
+        <link rel="stylesheet" type="text/css" href="css/main.css">
     </head>
     <body>
     
@@ -24,8 +24,8 @@
             </div>
         </div>
 
-        <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
-        <script src="{{ url_for('static', filename='js/handlebars.js')}}"></script>
-        <script src="{{ url_for('static', filename='js/quiz.js')}}"></script>
+        <script src="js/jquery.js"></script>
+        <script src="js/handlebars.js"></script>
+        <script src="js/quiz.js"></script>
     </body>
 </html>

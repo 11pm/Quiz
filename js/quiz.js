@@ -8,8 +8,8 @@ var quiz = {
 	//keep all anwered question objects
 	answered: [],
 
-	mainFolder: '/static/',
-	templateFolder: '/static/templates/',
+	mainFolder: '',
+	templateFolder: 'templates/',
 
 	//dynamic data from JSON file
 	data: [],

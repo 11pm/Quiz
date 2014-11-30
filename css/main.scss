@@ -1,7 +1,7 @@
 @import 'mixins';
 
 body{
-	background: url(/static/img/bg.jpg);
+	background: url(/img/bg.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 }
@@ -21,11 +21,9 @@ body{
 
 		.option{
 			padding: 0 !important;
-			
-			label{
-				font-size: 150%;
+			a{
+				width: 100%;
 			}
-
 		}
 	}
 

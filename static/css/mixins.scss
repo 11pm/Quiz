@@ -1,5 +1,0 @@
-@mixin box-shadow($horizontal, $vertical, $blur, $spread, $color) {
-	-webkit-box-shadow: $horizontal px $vertical px $blur px $spread px $color;
-	-moz-box-shadow: $horizontal px $vertical px $blur px $spread px $color;
-	box-shadow: $horizontal px $vertical px $blur px $spread px $color;
-}
