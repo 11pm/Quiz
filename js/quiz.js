@@ -221,10 +221,27 @@ var quiz = {
 
 	},
 
+	//convert to values to percent
+	toPercent: function(value1, value2){
+
+		return ((value1/value2)*100).toFixed(0);
+	},
+
 	//Final screen
 	displayScore: function(){
-		var answered = quiz.answered;
+		var answered     = quiz.answered;
 		var correctTotal = 0;
+		var submitted    = false;
+		var error        = false;
+
+		//if passed in arg 1
+		if(arguments[0]){ 
+			submitted = arguments[0];
+		}
+		//if passed in arg 2
+		if(arguments[1]){
+			error = arguments[1];
+		}
 
 		//get number of correct options 
 		answered.filter(function(obj){
@@ -232,13 +249,33 @@ var quiz = {
 				return correctTotal++;
 			}
 		});
-
+		
 		var context = {
 			correctTotal: correctTotal,
-			questionTotal: answered.length, 
+			questionTotal: answered.length,
+			percent: quiz.toPercent(correctTotal, answered.length),
+			submitted: submitted,
+			error: error
 		};
 		
 		this.render('finished', context);
+	},
+
+	submit: function(e){
+
+		var username = $('.username').val();
+
+		//if username is empty
+		if(username.length <= 0){
+
+			//show with error 
+			quiz.displayScore(false, true);
+			return false;
+
+		}
+
+		quiz.displayScore(true);
+
 	},
 
 	//returns true if the quiz is finished
@@ -309,6 +346,9 @@ $('body').on('click', '.next', quiz.next);
 
 //reset quiz
 $('body').on('click', '.reset', quiz.reset);
+
+//submit name
+$('body').on('click', '.submit', quiz.submit);
 
 //hide back button in the first question
 Handlebars.registerHelper('notFirst', function(v1, options) {

@@ -1,7 +1,10 @@
 <h3 class='text-center'>
-    You got {{correctTotal}} of {{questionTotal}}
+    You got {{correctTotal}} of {{questionTotal}} ({{percent}}%)
 </h3>
 <hr>
+<h4>Leaderboards</h4>
+
+{{#if submitted}}
 <table>
   <thead>
     <tr>
@@ -27,5 +30,21 @@
     </tr>
   </tbody>
 </table>
+{{else}}
+<div class="row collapse">
+
+	{{#if error}}
+     	<span class="error">Please fill in the username</span>
+    {{/if}}
+    <div class="small-10 columns">
+        <input type="text" placeholder="Username" class="username" required>
+    </div>
+    <div class="small-2 columns">
+	    <a href="#" class="button postfix submit">Go</a>
+    </div>
+
+</div>
+
+{{/if}}
 
 <a class="reset button wide alert">Reset</a>               
