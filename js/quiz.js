@@ -256,8 +256,14 @@ var quiz = {
 				category: quiz.category
 			},
 			success: function(response){
-
 				console.log(response)
+				//render the leaderboards with new data
+				var context = {
+					category: quiz.category,
+					leaderboards: JSON.parse(response)
+				};
+
+				quiz.render('leaderboards', context);
 			}
 		});
 	},
