@@ -248,12 +248,12 @@ var quiz = {
 		});
 	},
 
-	leaderboards: function(category){
+	leaderboards: function(){
 		$.ajax({
 			type: "POST",
 			url: quiz.apiBase + "leaderboards",
 			data: {
-				category: category
+				category: quiz.category
 			},
 			success: function(response){
 
@@ -269,7 +269,6 @@ var quiz = {
 		var correctTotal = 0;
 
 		var error        = false;
-		var username     = "";
 
 		//if passed in arg 2
 		if(arguments[0]){
@@ -283,14 +282,13 @@ var quiz = {
 			}
 		});
 
-	
 		//create record in database
 		//Send to database before we get the table
 		$.ajax({
 			type: "POST",
 			url: quiz.apiBase + "leaderboards/create",
 			data: {
-				username: username,
+				username: quiz.user,
 				score: correctTotal,
 				category: quiz.category
 			}
@@ -306,25 +304,6 @@ var quiz = {
 		};
 
 		quiz.render('finished', context);
-		/*wait for the data from the api, then render with 100% chance of data		
-		$.when(quiz.leaderboards(quiz.category).done(function(response){
-			console.log(response)
-			//load the results from api
-			context = {
-				correctTotal: correctTotal,
-				questionTotal: answered.length,
-				percent: quiz.toPercent(correctTotal, answered.length),
-				submitted: submitted,
-				error: error,
-		
-				category: quiz.category,
-				user: quiz.user
-			};
-			console.log(context)
-			quiz.render('leaderboards', context);
-
-			//data for the template
-		}));*/
 
 		console.log(context)
 	},
@@ -344,7 +323,7 @@ var quiz = {
 
 		//set the current user
 		quiz.user = username;
-		localStorage('user', username);
+		localStorage.setItem('user', username);
 		//show leaderboards
 		quiz.leaderboards();
 
