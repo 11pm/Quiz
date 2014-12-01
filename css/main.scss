@@ -47,8 +47,21 @@ body{
 }
 
 #leaderboards{
-	.headerSortDown{
-		background: url(../img/desc.gif);
+	th.header {
+		  background-image: url(../img/bg.gif);
+		  cursor: pointer;
+		  font-weight: bold;
+		  background-repeat: no-repeat;
+		  background-position: center left;
+		  padding-left: 20px;
+		  margin-left: -1px;
 	}
-
+	th.headerSortUp {
+		  background-image: url(../img/asc.gif);
+		  background-color: #dad9c7;
+	}
+	th.headerSortDown {
+		  background-image: url(../img/desc.gif);
+		  background-color: #dad9c7;
+	}
 }
