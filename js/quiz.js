@@ -232,22 +232,19 @@ var quiz = {
 		return ((value1/value2)*100).toFixed(0);
 	},
 
-	//get leaderboards from api
-	getLeaderboards: function(category){
-		$.ajax({
-			type: "POST",
-			url: quiz.apiBase + "leaderboards",
-			data: {	
-				category: category
-			},
-			async: false,
-			success: function(response){
-				//console.log(response)
-				return response;
-			}	
+	correctTotal: function(){
+		var correctTotal = 0;
+
+		quiz.answered.filter(function(obj){
+			if (obj.dataset.correct === true){
+				return correctTotal++;
+			}
 		});
+
+		return correctTotal++;
 	},
 
+	//get leaderboards from api and show page
 	leaderboards: function(){
 		$.ajax({
 			type: "POST",
@@ -272,8 +269,6 @@ var quiz = {
 	displayScore: function(){
 
 		var answered     = quiz.answered;
-		var correctTotal = 0;
-
 		var error        = false;
 
 		//if passed in arg 2
@@ -281,29 +276,10 @@ var quiz = {
 			error = arguments[0];
 		}
 
-		//get number of correct options 
-		answered.filter(function(obj){
-			if (obj.dataset.correct === true){
-				return correctTotal++;
-			}
-		});
-
-		//create record in database
-		//Send to database before we get the table
-		$.ajax({
-			type: "POST",
-			url: quiz.apiBase + "leaderboards/create",
-			data: {
-				username: quiz.user,
-				score: correctTotal,
-				category: quiz.category
-			}
-		});
-
 		var context = {
-			correctTotal: correctTotal,
+			correctTotal: quiz.correctTotal(),
 			questionTotal: answered.length,
-			percent: quiz.toPercent(correctTotal, answered.length),
+			percent: quiz.toPercent(quiz.correctTotal(), answered.length),
 			error: error,
 			category: quiz.category,
 			user: quiz.user
@@ -330,9 +306,27 @@ var quiz = {
 		//set the current user
 		quiz.user = username;
 		localStorage.setItem('user', username);
-		//show leaderboards
-		quiz.leaderboards();
 
+		function insert(){
+			return $.ajax({
+				type: "POST",
+				url: quiz.apiBase + "leaderboards/create",
+				data: {
+					username: quiz.user,
+					score: quiz.correctTotal(),
+					category: quiz.category
+				},
+				success: function(response){
+					return response;
+				}
+			});
+		}
+
+		$.when(insert()).done(function(response){
+
+			//show leaderboards when the ajax request is done
+			quiz.leaderboards();
+		});
 	},
 
 	//returns true if the quiz is finished
