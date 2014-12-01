@@ -32,4 +32,7 @@ body {
   .categories a {
     width: 100%; }
 
+#leaderboards .headerSortDown {
+  background: url(../img/desc.gif); }
+
 /*# sourceMappingURL=main.css.map */

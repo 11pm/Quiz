@@ -19,12 +19,13 @@
                 <div class="panel animated fadeIn quiz">
                 
                     <div class="view"></div>
-     
+
                 </div>
             </div>
         </div>
 
         <script src="js/jquery.js"></script>
+        <script src="js/jquery.tablesorter.min.js"></script>
         <script src="js/handlebars.js"></script>
         <script src="js/quiz.js"></script>
     </body>

@@ -1,7 +1,7 @@
 @import 'mixins';
 
 body{
-	background: url(/img/bg.jpg);
+	background: url(../img/bg.jpg);
 	background-size: cover;
 	background-repeat: no-repeat;
 }
@@ -42,6 +42,13 @@ body{
 
 	a{
 		width: 100%;
+	}
+
+}
+
+#leaderboards{
+	.headerSortDown{
+		background: url(../img/desc.gif);
 	}
 
 }

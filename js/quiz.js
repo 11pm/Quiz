@@ -253,14 +253,16 @@ var quiz = {
 				category: quiz.category
 			},
 			success: function(response){
-				console.log(response)
 				//render the leaderboards with new data
 				var context = {
 					category: quiz.category,
 					leaderboards: JSON.parse(response)
 				};
 
+				//tablesorted
+				
 				quiz.render('leaderboards', context);
+				$('#leaderboards').tablesorter();
 			}
 		});
 	},
@@ -287,7 +289,6 @@ var quiz = {
 
 		quiz.render('finished', context);
 
-		console.log(context)
 	},
 
 	submit: function(e){
@@ -400,6 +401,8 @@ $('body').on('click', '.reset', quiz.reset);
 
 //submit name
 $('body').on('click', '.submit', quiz.submit);
+
+
 
 //hide back button in the first question
 Handlebars.registerHelper('notFirst', function(v1, options) {

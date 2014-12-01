@@ -1,5 +1,5 @@
 <h4>Leaderboards for {{category}}</h4>
-<table>
+<table id="leaderboards">
   <thead>
     <tr>
       <th>Username</th>
@@ -21,4 +21,7 @@
    
 </table>
 
-<a class="reset button wide alert">Reset</a>      
+<a class="reset button wide alert">Reset</a>   
+<script type="text/javascript">
+  $('#leaderboards').tablesorter();
+</script>   
