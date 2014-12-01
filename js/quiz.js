@@ -117,6 +117,7 @@ var quiz = {
 
 			//show score and prevent going into this.function
 			this.displayScore();
+
 			return false;
 		}
 		else{
@@ -189,6 +190,7 @@ var quiz = {
 		//arrow keys are doing something fucked up, stop them
 		if(left || right)
 			return false;
+
 	},
 	//goes to previous
 	back: function(){
@@ -232,11 +234,6 @@ var quiz = {
 
 	//Final screen
 	displayScore: function(){
-		//if user is remebered skip other steps
-		if(quiz.user){
-			quiz.showLeaderboards();
-			return false;
-		}
 
 		var answered     = quiz.answered;
 		var correctTotal = 0;
@@ -255,8 +252,14 @@ var quiz = {
 			error = arguments[1];
 		}
 
-		
+		//get number of correct options 
+		answered.filter(function(obj){
+			if (obj.dataset.correct === true){
+				return correctTotal++;
+			}
+		});
 
+		//if an user is passed in
 		if(arguments[2]){
 			username = arguments[2];
 
@@ -270,55 +273,45 @@ var quiz = {
 				type: "POST",
 				url: quiz.apiBase + "leaderboards/create",
 				data: {
-					username: quiz.user,
+					username: username,
 					score: correctTotal,
 					category: quiz.category
-				},
-				success: function(response){
-					console.log(response)
 				}
 			});
 		}
-		quiz.showLeaderboards();
-			
 
-	},
+	
+		function getLeaderboards(){
+			return $.ajax({
+				type: "POST",
+				url: quiz.apiBase + "leaderboards",
+				data: {	
+					category: quiz.category
+				}
+			});
+		}
 
-	showLeaderboards: function(){
-		var correctTotal = 0;
-		var leaderboards = [];
-		//get number of correct options 
-		quiz.answered.filter(function(obj){
-			if (obj.dataset.correct === true){
-				return correctTotal++;
-			}
-		});
-		//create the context
-		var context = {
-			correctTotal: correctTotal,
-			questionTotal: quiz.answered.length,
-			percent: quiz.toPercent(correctTotal, quiz.answered.length),
-			submitted: true,
-			error: false,
-			leaderboards: leaderboards
-		};
-
-		//get quiz leaderboards
-		$.ajax({
-			type: "POST",
-			url: quiz.apiBase + "leaderboards",
-			async: false,
-			data: {	
-				category: quiz.category
-			},
-			success: function(response){
-				console.log(response);
-				context.leaderboards = JSON.parse(response);
-			} 
-		});
-		//wait for new leaderboard data
 		
-		quiz.render('finished', context);		
+		//wait for the data from the api, then render with 100% chance of data		
+		$.when(getLeaderboards()).done(function(response){
+			//load the results from api
+
+			//data for the template
+			var context = {
+				correctTotal: correctTotal,
+				questionTotal: answered.length,
+				percent: quiz.toPercent(correctTotal, answered.length),
+				submitted: submitted,
+				error: error,
+				leaderboards: JSON.parse(response),
+				category: quiz.category,
+				user: quiz.user
+			};
+			
+			quiz.render('finished', context);	
+			
+		});
+
 	},
 
 	submit: function(e){
@@ -331,8 +324,10 @@ var quiz = {
 			//show with error 
 			quiz.displayScore(false, true);
 			return false;
+
 		}
 
+		//show leaderboards
 		quiz.displayScore(true, false, username);
 
 	},

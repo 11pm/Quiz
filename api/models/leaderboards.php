@@ -11,6 +11,14 @@ class Leaderboards{
 
 	public static function create($data){
 		$data = OBJECT($data);
+		return "Ayy lmao";
+		//if the record exists in db
+		$exists = Aid::query("SELECT * FROM leaderboards WHERE category = ? AND username = ?", true, [
+			$data->category,
+			$data->username
+		]);
+
+		return count($exists);
 		$sql = "INSERT INTO leaderboards (username, score, category) VALUES (?, ?, ?)";
 		
 		$response = Aid::query($sql, false, [
@@ -19,7 +27,7 @@ class Leaderboards{
 			$data->category
 		]);
 
-		return ;
+		
 
 	}
 

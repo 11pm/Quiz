@@ -2,24 +2,24 @@
     You got {{correctTotal}} of {{questionTotal}} ({{percent}}%)
 </h3>
 <hr>
-<h4>Leaderboards</h4>
 
 {{#if submitted}}
-
+<h4>Leaderboards for {{category}}</h4>
 <table>
   <thead>
     <tr>
       <th>Username</th>
       <th>Score</th>
+      <th>Time</th>
     </tr>
   </thead>
   <tbody>
     
-
    {{#each leaderboards}}
    		<tr>
    			<td>{{this.username}}</td>
    			<td>{{this.score}}</td>
+        <td>{{this.time_added}}</td>
    		</tr>
    {{/each}}
 
@@ -30,14 +30,14 @@
 {{else}}
 <div class="row collapse">
 
-	{{#if error}}
-     	<span class="error">Please fill in the username</span>
+    {{#if error}}
+        <span class="error">Please fill in the username</span>
     {{/if}}
     <div class="small-10 columns">
-        <input type="text" placeholder="Username" class="username" required>
+        <input type="text" placeholder="Username" class="username" required value="{{#if user}}{{user}}{{/if}}">
     </div>
     <div class="small-2 columns">
-	    <a href="#" class="button postfix submit">Go</a>
+	     <a href="#" class="button postfix submit">Go</a>
     </div>
 
 </div>

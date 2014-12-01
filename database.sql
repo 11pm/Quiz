@@ -8,5 +8,6 @@ CREATE table leaderboards(
 	username varchar(255),
 	score int,
 	category varchar(255),
+	time_added timestamp,
 	CONSTRAINT leaderboards_PK primary key(id)
 );
