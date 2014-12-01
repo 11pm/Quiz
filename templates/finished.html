@@ -3,31 +3,6 @@
 </h3>
 <hr>
 
-{{#if submitted}}
-<h4>Leaderboards for {{category}}</h4>
-<table>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Score</th>
-      <th>Time</th>
-    </tr>
-  </thead>
-  <tbody>
-    
-   {{#each leaderboards}}
-   		<tr>
-   			<td>{{this.username}}</td>
-   			<td>{{this.score}}</td>
-        <td>{{this.time_added}}</td>
-   		</tr>
-   {{/each}}
-
-  </tbody>
-   
-</table>
-
-{{else}}
 <div class="row collapse">
 
     {{#if error}}
@@ -41,7 +16,5 @@
     </div>
 
 </div>
-
-{{/if}}
 
 <a class="reset button wide alert">Reset</a>               

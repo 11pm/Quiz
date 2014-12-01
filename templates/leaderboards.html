@@ -1,0 +1,22 @@
+<h4>Leaderboards for {{category}}</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Score</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+   {{#each leaderboards}}
+   		<tr>
+   			<td>{{this.username}}</td>
+   			<td>{{this.score}}</td>
+        <td>{{this.time_added}}</td>
+   		</tr>
+   {{/each}}
+
+  </tbody>
+   
+</table>

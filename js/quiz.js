@@ -232,24 +232,48 @@ var quiz = {
 		return ((value1/value2)*100).toFixed(0);
 	},
 
+	//get leaderboards from api
+	getLeaderboards: function(category){
+		$.ajax({
+			type: "POST",
+			url: quiz.apiBase + "leaderboards",
+			data: {	
+				category: category
+			},
+			async: false,
+			success: function(response){
+				//console.log(response)
+				return response;
+			}	
+		});
+	},
+
+	leaderboards: function(category){
+		$.ajax({
+			type: "POST",
+			url: quiz.apiBase + "leaderboards",
+			data: {
+				category: category
+			},
+			success: function(response){
+
+				console.log(response)
+			}
+		});
+	},
+
 	//Final screen
 	displayScore: function(){
 
 		var answered     = quiz.answered;
 		var correctTotal = 0;
 
-		var submitted    = false;
 		var error        = false;
 		var username     = "";
-		var leaderboards = [];
 
-		//if passed in arg 1
-		if(arguments[0]){ 
-			submitted = arguments[0];
-		}
 		//if passed in arg 2
-		if(arguments[1]){
-			error = arguments[1];
+		if(arguments[0]){
+			error = arguments[0];
 		}
 
 		//get number of correct options 
@@ -259,59 +283,50 @@ var quiz = {
 			}
 		});
 
-		//if an user is passed in
-		if(arguments[2]){
-			username = arguments[2];
-
-			//"remeber the user"
-			localStorage.setItem('user', username);
-			quiz.user = username;
-
-			//create record in database
-			//Send to database before we get the table
-			$.ajax({
-				type: "POST",
-				url: quiz.apiBase + "leaderboards/create",
-				data: {
-					username: username,
-					score: correctTotal,
-					category: quiz.category
-				}
-			});
-		}
-
 	
-		function getLeaderboards(){
-			return $.ajax({
-				type: "POST",
-				url: quiz.apiBase + "leaderboards",
-				data: {	
-					category: quiz.category
-				}
-			});
-		}
+		//create record in database
+		//Send to database before we get the table
+		$.ajax({
+			type: "POST",
+			url: quiz.apiBase + "leaderboards/create",
+			data: {
+				username: username,
+				score: correctTotal,
+				category: quiz.category
+			}
+		});
 
-		
-		//wait for the data from the api, then render with 100% chance of data		
-		$.when(getLeaderboards()).done(function(response){
+		var context = {
+			correctTotal: correctTotal,
+			questionTotal: answered.length,
+			percent: quiz.toPercent(correctTotal, answered.length),
+			error: error,
+			category: quiz.category,
+			user: quiz.user
+		};
+
+		quiz.render('finished', context);
+		/*wait for the data from the api, then render with 100% chance of data		
+		$.when(quiz.leaderboards(quiz.category).done(function(response){
+			console.log(response)
 			//load the results from api
-
-			//data for the template
-			var context = {
+			context = {
 				correctTotal: correctTotal,
 				questionTotal: answered.length,
 				percent: quiz.toPercent(correctTotal, answered.length),
 				submitted: submitted,
 				error: error,
-				leaderboards: JSON.parse(response),
+		
 				category: quiz.category,
 				user: quiz.user
 			};
-			
-			quiz.render('finished', context);	
-			
-		});
+			console.log(context)
+			quiz.render('leaderboards', context);
 
+			//data for the template
+		}));*/
+
+		console.log(context)
 	},
 
 	submit: function(e){
@@ -322,13 +337,16 @@ var quiz = {
 		if(username.length <= 0){
 
 			//show with error 
-			quiz.displayScore(false, true);
+			quiz.displayScore(true);
 			return false;
 
 		}
 
+		//set the current user
+		quiz.user = username;
+		localStorage('user', username);
 		//show leaderboards
-		quiz.displayScore(true, false, username);
+		quiz.leaderboards();
 
 	},
 
