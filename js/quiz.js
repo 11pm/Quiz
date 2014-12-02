@@ -46,8 +46,20 @@ var quiz = {
 		//generate all categories for user to select
 		var allCategories = [];
 		
-		//get the json file and handle categories
-		$.getJSON(quiz.mainFolder + "data/questions.json", function(response){
+		function getJSON(){
+			return $.ajax({
+				type: "GET",
+				url: quiz.mainFolder + "data/questions.json",
+				dataType: "JSON",
+				success: function(response){
+					return response;
+				}
+			});
+		}
+
+		$.when(getJSON()).done(function(response){
+
+			//show leaderboards when the ajax request is done
 			response.forEach(function(obj){
 				var categories = obj.category;
 				//if its unqiue
@@ -58,7 +70,6 @@ var quiz = {
 			});
 
 			quiz.data = response;
-
 		});
 
 		this.render('categories', allCategories);
