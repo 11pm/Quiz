@@ -70,9 +70,10 @@ var quiz = {
 			});
 
 			quiz.data = response;
+			quiz.render('categories', allCategories);
 		});
 
-		this.render('categories', allCategories);
+		
 	},
 	//get categories from user
 	start: function(e){
